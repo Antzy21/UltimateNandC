@@ -7,10 +7,10 @@ pygame.init()
 clock = pygame.time.Clock()
 #test comment
 
-edgespace = 2
+es = 20
 
-display_width = 450 + 8*edgespace
-display_height = 450 + 8*edgespace
+display_width = 450 + 8*es
+display_height = 450 + 8*es
 game_display = pygame.display.set_mode((display_width,display_height))
 pygame.display.set_caption('Ulitmate Naughts and Crosses')
 
@@ -73,12 +73,12 @@ def intro_loop(intro = True, squares = squares):
             game_display.fill(black)
             for LargeX in range(0,3):
                 for LargeY in range(0,3):
-                    #pygame.draw.polygon(game_display, green, ((25,75),(76,125),(250,375),(400,25),(60,540)))
+                    shape = ((50,50),(0,50),(0,50+es),(50,50+es),(50,100+es),(0,100+es),(0,100+2*es),(50,100+2*es),(50,150+2*es),(50+es,150+2*es),(50+es,100+2*es),(100,100+2*es),(100+es,100+2*es),(100+es,150+2*es),(100+2*es,150+2*es),(100+2*es,100+2*es),(150+2*es,100+2*es),(150+es,100+2*es),(150+2*es,100+2*es),(150+2*es,100+es),(100+2*es,100+es),(100+2*es,100+2*es),(100+2*es,50+2*es),(150+2*es,50+2*es),(150+2*es,50+es),(100+2*es,50+es),(100+2*es,0+2*es),(100+es,0+2*es),(100+es,50+2*es))
+                    pygame.draw.polygon(game_display, blue, shape)
                     for MiniX in range(0,3):
                         for MiniY in range(0,3):
-                            print(squares[LargeX][LargeY][MiniX][MiniY])
-                            x = 2*edgespace + (150+2*edgespace)*LargeX+50*MiniX
-                            y = 2*edgespace + (150+2*edgespace)*LargeY+50*MiniY
+                            x = 2*es + (150+2*es)*LargeX+50*MiniX
+                            y = 2*es + (150+2*es)*LargeY+50*MiniY
                             if squares[LargeX][LargeY][MiniX][MiniY] == True:
                                 squares = create_button(x, y, LargeX, LargeY, MiniX, MiniY, squares)
                             else:
@@ -98,8 +98,8 @@ def intro_loop(intro = True, squares = squares):
                     #pygame.draw.polygon(game_display, green, ((25,75),(76,125),(250,375),(400,25),(60,540)))
                     for MiniX in range(0,3):
                         for MiniY in range(0,3):
-                            x = 2*edgespace + (150+2*edgespace)*LargeX+50*MiniX
-                            y = 2*edgespace + (150+2*edgespace)*LargeY+50*MiniY
+                            x = 2*es + (150+2*es)*LargeX+50*MiniX
+                            y = 2*es + (150+2*es)*LargeY+50*MiniY
                             if squares[LargeX][LargeY][MiniX][MiniY] == True:
                                 create_button(x,y)
                             else:
