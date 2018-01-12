@@ -65,8 +65,9 @@ def intro_loop(intro = True, squares = squares):
     Player1 = True
     width = 50
     mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
     while gameover == False:
-        if Player1 == True:
+        while Player1 == True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -75,6 +76,7 @@ def intro_loop(intro = True, squares = squares):
             game_display.fill(black)
             for LargeX in range(0,3):
                 for LargeY in range(0,3):
+                    print("test")
                     shape = ((50,50),(0,50),(0,50+es),(50,50+es),(50,100+es),(0,100+es),(0,100+2*es),(50,100+2*es),(50,150+2*es),(50+es,150+2*es),(50+es,100+2*es),(100,100+2*es),(100+es,100+2*es),(100+es,150+2*es),(100+2*es,150+2*es),(100+2*es,100+2*es),(150+2*es,100+2*es),(150+es,100+2*es),(150+2*es,100+2*es),(150+2*es,100+es),(100+2*es,100+es),(100+2*es,100+2*es),(100+2*es,50+2*es),(150+2*es,50+2*es),(150+2*es,50+es),(100+2*es,50+es),(100+2*es,0+2*es),(100+es,0+2*es),(100+es,50+2*es))
                     pygame.draw.polygon(game_display, blue, shape)
                     for MiniX in range(0,3):
@@ -85,21 +87,19 @@ def intro_loop(intro = True, squares = squares):
                                 squares = create_button(pos_x, pos_y, LargeX, LargeY, MiniX, MiniY, squares)
                             else:
                                 pygame.draw.rect(game_display, blue, (pos_x,pos_y,10,10))
-            click = pygame.mouse.get_pressed()
-            if click[0] == 1 and [[click[0]],[pos_x + width > mouse[0] > pos_x and pos_y + height > mouse[1] > pos_y]]:
-                Player1 == False
-
+                            if click[0] == 1:
+                                Player1 == False
 
             pygame.display.update()
             clock.tick(ticker)
-
-        if Player1 == False:
+        while Player1 == False:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     quit()
-                #Player 1 has turn
-            game_display.fill(black)
+                #Player 2 has turn
+            game_display.fill(cyan)
+            time.sleep(2)
             for LargeX in range(0,3):
                 for LargeY in range(0,3):
                     #pygame.draw.polygon(game_display, green, ((25,75),(76,125),(250,375),(400,25),(60,540)))
@@ -107,18 +107,16 @@ def intro_loop(intro = True, squares = squares):
                         for MiniY in range(0,3):
                             x = 2*es + (150+2*es)*LargeX+50*MiniX
                             y = 2*es + (150+2*es)*LargeY+50*MiniY
-
                             if squares[LargeX][LargeY][MiniX][MiniY] == True:
                                 squares = create_button(x, y, LargeX, LargeY, MiniX, MiniY, squares)
                             else:
                                 pygame.draw.rect(game_display, blue, (x,y,10,10))
-            click = pygame.mouse.get_pressed()
-            if click[0] == 1 and [[click[0]],[pos_x + width > mouse[0] > pos_x and pos_y + height > mouse[1] > pos_y]]:
-                Player1 == True
+                            if click[0] == 1:
+                                Player1 == True
+                                print("test2")
 
-
-        pygame.display.update()
-        clock.tick(ticker)
+            pygame.display.update()
+            clock.tick(ticker)
 
     gameover = check_if_gameover()
 
