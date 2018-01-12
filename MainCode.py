@@ -65,7 +65,6 @@ def intro_loop(intro = True, squares = squares):
     Player1 = True
     width = 50
     mouse = pygame.mouse.get_pos()
-    click = pygame.mouse.get_pressed()
     while gameover == False:
         while Player1 == True:
             for event in pygame.event.get():
@@ -87,11 +86,15 @@ def intro_loop(intro = True, squares = squares):
                             else:
                                 pygame.draw.rect(game_display, blue, (pos_x,pos_y,10,10))
             click = pygame.mouse.get_pressed()
-            if click[0] == 1 and [[click[0]],[pos_x + width > mouse[0] > pos_x and pos_y + height > mouse[1] > pos_y]]:
-                Player1 == False
+            if click[0] == 1:
+                game_display.fill(blue)
+                time.sleep(1)
+                print('true')
+                Player1 = False
 
             pygame.display.update()
             clock.tick(ticker)
+
         while Player1 == False:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -100,24 +103,9 @@ def intro_loop(intro = True, squares = squares):
                 #Player 2 has turn
             game_display.fill(cyan)
             time.sleep(2)
-            for LargeX in range(0,3):
-                for LargeY in range(0,3):
-                    #pygame.draw.polygon(game_display, green, ((25,75),(76,125),(250,375),(400,25),(60,540)))
-                    for MiniX in range(0,3):
-                        for MiniY in range(0,3):
-                            x = 2*es + (150+2*es)*LargeX+50*MiniX
-                            y = 2*es + (150+2*es)*LargeY+50*MiniY
-                            if squares[LargeX][LargeY][MiniX][MiniY] == True:
-                                squares = create_button(x, y, LargeX, LargeY, MiniX, MiniY, squares)
-                            else:
-                                pygame.draw.rect(game_display, blue, (x,y,10,10))
-                            if click[0] == 1:
-                                Player1 == True
-                                print("test2")
 
             pygame.display.update()
             clock.tick(ticker)
-
-    gameover = check_if_gameover()
+            gameover = check_if_gameover()
 
 intro_loop()
