@@ -25,8 +25,16 @@ yellow = (255,255,0)
 
 ticker = 120
 
-mini_squares = [[True,True,True],[True,True,True],[True,True,True]]
-squares = [[mini_squares,mini_squares,mini_squares],[mini_squares,mini_squares,mini_squares],[mini_squares,mini_squares,[[True,True,True],[True,True,True],[True,True,True]]]]
+mini_squares00 = [[True,True,True],[True,True,True],[True,True,True]]
+mini_squares01 = [[True,True,True],[True,True,True],[True,True,True]]
+mini_squares02 = [[True,True,True],[True,True,True],[True,True,True]]
+mini_squares10 = [[True,True,True],[True,True,True],[True,True,True]]
+mini_squares11 = [[True,True,True],[True,True,True],[True,True,True]]
+mini_squares12 = [[True,True,True],[True,True,True],[True,True,True]]
+mini_squares20 = [[True,True,True],[True,True,True],[True,True,True]]
+mini_squares21 = [[True,True,True],[True,True,True],[True,True,True]]
+mini_squares22 = [[True,True,True],[True,True,True],[True,True,True]]
+squares = [[mini_squares00,mini_squares01,mini_squares02],[mini_squares10,mini_squares11,mini_squares12],[mini_squares20,mini_squares21,mini_squares22]]
 
 def message_display(text = '"insert text"',text_size = 20, position = (display_width/2,display_height/2), colour = white):
     largeText = pygame.font.Font('freesansbold.ttf',text_size)
