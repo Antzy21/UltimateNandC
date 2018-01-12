@@ -7,10 +7,10 @@ pygame.init()
 clock = pygame.time.Clock()
 #test comment
 
-es = 20
+es = 40
 
-display_width = 450 + 8*es
-display_height = 450 + 8*es
+display_width = 450 + 4*es
+display_height = 450 + 4*es
 game_display = pygame.display.set_mode((display_width,display_height))
 pygame.display.set_caption('Ulitmate Naughts and Crosses')
 
@@ -75,12 +75,12 @@ def intro_loop(intro = True, squares = squares):
             game_display.fill(black)
             for LargeX in range(0,3):
                 for LargeY in range(0,3):
-                    shape = ((50,50),(0,50),(0,50+es),(50,50+es),(50,100+es),(0,100+es),(0,100+2*es),(50,100+2*es),(50,150+2*es),(50+es,150+2*es),(50+es,100+2*es),(100,100+2*es),(100+es,100+2*es),(100+es,150+2*es),(100+2*es,150+2*es),(100+2*es,100+2*es),(150+2*es,100+2*es),(150+es,100+2*es),(150+2*es,100+2*es),(150+2*es,100+es),(100+2*es,100+es),(100+2*es,100+2*es),(100+2*es,50+2*es),(150+2*es,50+2*es),(150+2*es,50+es),(100+2*es,50+es),(100+2*es,0+2*es),(100+es,0+2*es),(100+es,50+2*es))
+                    shape = ((150,150),(0,150),(0,150+es),(150,150+es),(150,300+es),(0,300+es), (0,300+2*es),(150,300+2*es),(150,450+2*es),(150+es,450+2*es),(150+es,300+2*es), (300,300+2*es),(300+es,300+2*es),(300+es,450+2*es),(300+2*es,450+2*es), (300+2*es,300+2*es),(450+2*es,300+2*es),(450+es,300+2*es),(450+2*es,300+2*es), (450+2*es,300+es),(300+2*es,300+es),(300+2*es,300+2*es),(300+2*es,150+es), (450+2*es,150+es),(450+2*es,150),(300+2*es,150),(300+2*es,0),(300+es,0), (300+es,150),(150+es,150),(150+es,0),(150+es,0),(150,0))
                     pygame.draw.polygon(game_display, blue, shape)
                     for MiniX in range(0,3):
                         for MiniY in range(0,3):
-                            pos_x = 2*es + (150+2*es)*LargeX+50*MiniX
-                            pos_y = 2*es + (150+2*es)*LargeY+50*MiniY
+                            pos_x = (150+es)*LargeX+50*MiniX
+                            pos_y = (150+es)*LargeY+50*MiniY
                             if squares[LargeX][LargeY][MiniX][MiniY] == True:
                                 squares = create_button(pos_x, pos_y, LargeX, LargeY, MiniX, MiniY, squares)
                             else:
@@ -88,7 +88,6 @@ def intro_loop(intro = True, squares = squares):
             click = pygame.mouse.get_pressed()
             if click[0] == 1 and [[click[0]],[pos_x + width > mouse[0] > pos_x and pos_y + height > mouse[1] > pos_y]]:
                 Player1 == False
-
 
             pygame.display.update()
             clock.tick(ticker)
