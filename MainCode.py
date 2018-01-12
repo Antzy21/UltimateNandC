@@ -73,20 +73,23 @@ def intro_loop(intro = True, squares = squares):
                     quit()
             #Player 1 has turn
             game_display.fill(black)
+            size = 150
+            shape = ((1*size+es,1*size+es),(0+es,1*size+es),(0+es,1*size+2*es),(1*size+es,1*size+2*es),(1*size+es,2*size+2*es),(0+es,2*size+2*es), (0+es,2*size+3*es),(1*size+es,2*size+3*es),(1*size+es,3*size+3*es),(1*size+2*es,3*size+3*es),(1*size+2*es,2*size+3*es), (2*size+es,2*size+3*es),(2*size+2*es,2*size+3*es),(2*size+2*es,3*size+3*es),(2*size+3*es,3*size+3*es), (2*size+3*es,2*size+3*es),(3*size+3*es,2*size+3*es),(3*size+2*es,2*size+3*es),(3*size+3*es,2*size+3*es), (3*size+3*es,2*size+2*es),(2*size+3*es,2*size+2*es),(2*size+3*es,2*size+3*es),(2*size+3*es,1*size+2*es), (3*size+3*es,1*size+2*es),(3*size+3*es,1*size+es),(2*size+3*es,1*size+es),(2*size+3*es,0+es),(2*size+2*es,0+es), (2*size+2*es,1*size+es),(1*size+2*es,1*size+es),(1*size+2*es,0+es),(1*size+2*es,0+es),(1*size+es,0+es))
+            pygame.draw.polygon(game_display, blue, shape)
             for LargeX in range(0,3):
                 for LargeY in range(0,3):
-                    shape = ((150,150),(0,150),(0,150+es),(150,150+es),(150,300+es),(0,300+es), (0,300+2*es),(150,300+2*es),(150,450+2*es),(150+es,450+2*es),(150+es,300+2*es), (300,300+2*es),(300+es,300+2*es),(300+es,450+2*es),(300+2*es,450+2*es), (300+2*es,300+2*es),(450+2*es,300+2*es),(450+es,300+2*es),(450+2*es,300+2*es), (450+2*es,300+es),(300+2*es,300+es),(300+2*es,300+2*es),(300+2*es,150+es), (450+2*es,150+es),(450+2*es,150),(300+2*es,150),(300+2*es,0),(300+es,0), (300+es,150),(150+es,150),(150+es,0),(150+es,0),(150,0))
-                    pygame.draw.polygon(game_display, blue, shape)
                     for MiniX in range(0,3):
                         for MiniY in range(0,3):
-                            pos_x = (150+es)*LargeX+50*MiniX
-                            pos_y = (150+es)*LargeY+50*MiniY
+                            pos_x = (150+es)*LargeX+50*MiniX+es
+                            pos_y = (150+es)*LargeY+50*MiniY+es
                             if squares[LargeX][LargeY][MiniX][MiniY] == True:
                                 squares = create_button(pos_x, pos_y, LargeX, LargeY, MiniX, MiniY, squares)
                             else:
-                                pygame.draw.rect(game_display, blue, (pos_x,pos_y,10,10))
+                                pygame.draw.rect(game_display, black, (pos_x,pos_y,50,50))
+                                pygame.draw.line(game_display, yellow, (pos_x+5,pos_y+5), (pos_x+45,pos_y+45),5)
+                                pygame.draw.line(game_display, yellow, (pos_x+5,pos_y+45), (pos_x+45,pos_y+5),5)
             click = pygame.mouse.get_pressed()
-            if click[0] == 1:
+            if click[0] == 2:
                 game_display.fill(blue)
                 time.sleep(1)
                 print('true')
