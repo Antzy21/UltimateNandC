@@ -87,10 +87,8 @@ def intro_loop(intro = True, squares = squares):
                                 pygame.draw.rect(game_display, blue, (pos_x,pos_y,10,10))
             click = pygame.mouse.get_pressed()
             if click[0] == 1:
-                game_display.fill(blue)
-                time.sleep(1)
-                print('true')
                 Player1 = False
+                print("false")
 
             pygame.display.update()
             clock.tick(ticker)
@@ -101,11 +99,30 @@ def intro_loop(intro = True, squares = squares):
                     pygame.quit()
                     quit()
                 #Player 2 has turn
-            game_display.fill(cyan)
-            time.sleep(2)
+            game_display.fill(black)
+            print("cyan")
+            for LargeX in range(0,3):
+                for LargeY in range(0,3):
+                    shape = ((150,150),(0,150),(0,150+es),(150,150+es),(150,300+es),(0,300+es), (0,300+2*es),(150,300+2*es),(150,450+2*es),(150+es,450+2*es),(150+es,300+2*es), (300,300+2*es),(300+es,300+2*es),(300+es,450+2*es),(300+2*es,450+2*es), (300+2*es,300+2*es),(450+2*es,300+2*es),(450+es,300+2*es),(450+2*es,300+2*es), (450+2*es,300+es),(300+2*es,300+es),(300+2*es,300+2*es),(300+2*es,150+es), (450+2*es,150+es),(450+2*es,150),(300+2*es,150),(300+2*es,0),(300+es,0), (300+es,150),(150+es,150),(150+es,0),(150+es,0),(150,0))
+                    pygame.draw.polygon(game_display, blue, shape)
+                    for MiniX in range(0,3):
+                        for MiniY in range(0,3):
+                            pos_x = (150+es)*LargeX+50*MiniX
+                            pos_y = (150+es)*LargeY+50*MiniY
+                            if squares[LargeX][LargeY][MiniX][MiniY] == True:
+                                squares = create_button(pos_x, pos_y, LargeX, LargeY, MiniX, MiniY, squares)
+                            else:
+                                pygame.draw.rect(game_display, blue, (pos_x,pos_y,10,10))
+            click = pygame.mouse.get_pressed()
+            if click[0] == 1:
+                game_display.fill(blue)
+                time.sleep(1)
+                print('true')
+                Player1 = True
 
             pygame.display.update()
             clock.tick(ticker)
+
             gameover = check_if_gameover()
 
 intro_loop()
