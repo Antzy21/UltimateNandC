@@ -65,8 +65,9 @@ def intro_loop(intro = True, squares = squares):
     Player1 = True
     width = 50
     mouse = pygame.mouse.get_pos()
+
     while gameover == False:
-        while Player1 == True:
+        if Player1 == True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -92,12 +93,12 @@ def intro_loop(intro = True, squares = squares):
             if click[0] == 1:
                 Player1 = False
                 print("Player2's Turn")
-                time.sleep(0.5)
+                time.sleep(0.05)
 
             pygame.display.update()
             clock.tick(ticker)
 
-        while Player1 == False:
+        elif Player1 == False:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -123,7 +124,7 @@ def intro_loop(intro = True, squares = squares):
             if click[0] == 1:
                 print('Player 1\'s turn')
                 Player1 = True
-                time.sleep(0.5)
+                time.sleep(0.05)
 
             pygame.display.update()
             clock.tick(ticker)
