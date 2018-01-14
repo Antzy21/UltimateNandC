@@ -120,7 +120,7 @@ def intro_loop(intro = True, squares = squares):
                                 pygame.draw.circle(game_display, black, (pos_x+25,pos_y+25), 19)
             click = pygame.mouse.get_pressed()
             if click[0] == 1:
-                print('Player 1\'s turn')
+                print("Player 1's turn")
                 Player1 = True
 
             pygame.display.update()
