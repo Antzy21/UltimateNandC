@@ -92,6 +92,7 @@ def intro_loop(intro = True, squares = squares):
             if click[0] == 1:
                 Player1 = False
                 print("Player2's Turn")
+                time.sleep(0.5)
 
             pygame.display.update()
             clock.tick(ticker)
@@ -122,6 +123,7 @@ def intro_loop(intro = True, squares = squares):
             if click[0] == 1:
                 print('Player 1\'s turn')
                 Player1 = True
+                time.sleep(0.5)
 
             pygame.display.update()
             clock.tick(ticker)
