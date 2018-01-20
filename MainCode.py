@@ -43,7 +43,31 @@ def message_display(text = '"insert text"',text_size = 20, position = (display_w
     text_rect.center = position
     game_display.blit(text_surface, text_rect)
 
-def create_button(pos_x, pos_y, X, Y, x, y, squares, width=50, height=50, colour = white, hover_colour = white):
+def player1_button(pos_x, pos_y, X, Y, x, y, squares, Player1, width=50, height=50, colour = white, hover_colour = white):
+    if Player1:
+        Player1 = True
+    else:
+        Player1 == False
+    mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
+    if pos_x + width > mouse[0] > pos_x and pos_y + height > mouse[1] > pos_y:
+        pygame.draw.rect(game_display, cyan, (pos_x,pos_y,width,height))
+        pygame.draw.line(game_display, black, (pos_x+5,pos_y+25), (pos_x+45,pos_y+25),5)
+        pygame.draw.line(game_display, black, (pos_x+25,pos_y+5), (pos_x+25,pos_y+45),5)
+        if click[0] == 1:
+            time.sleep(0.1)
+            squares[X][Y][x][y] = 'Player1'
+            print('player 1 is now false')
+            Player1 = False
+    else:
+        pygame.draw.rect(game_display, colour, (pos_x,pos_y,width,height))
+    return squares, Player1
+
+def player2_button(pos_x, pos_y, X, Y, x, y, squares, Player1, width=50, height=50, colour = white, hover_colour = white):
+    if Player1:
+        Player1 = True
+    else:
+        Player1 == False
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
     if pos_x + width > mouse[0] > pos_x and pos_y + height > mouse[1] > pos_y:
@@ -52,10 +76,12 @@ def create_button(pos_x, pos_y, X, Y, x, y, squares, width=50, height=50, colour
         pygame.draw.line(game_display, black, (pos_x+25,pos_y+5), (pos_x+25,pos_y+45),5)
         if click[0] == 1:
             time.sleep(0.1)
-            squares[X][Y][x][y] = False
+            squares[X][Y][x][y] = 'Player2'
+            print('player 1 is now true')
+            Player1 = True
     else:
         pygame.draw.rect(game_display, colour, (pos_x,pos_y,width,height))
-    return squares
+    return squares, Player1
 
 def check_if_gameover():
     return False
@@ -84,16 +110,15 @@ def intro_loop(intro = True, squares = squares):
                             pos_x = (150+es)*LargeX+50*MiniX+es
                             pos_y = (150+es)*LargeY+50*MiniY+es
                             if squares[LargeX][LargeY][MiniX][MiniY] == True:
-                                squares = create_button(pos_x, pos_y, LargeX, LargeY, MiniX, MiniY, squares)
-                            else:
+                                squares, Player1 = player1_button(pos_x, pos_y, LargeX, LargeY, MiniX, MiniY, squares, Player1)
+                            elif squares[LargeX][LargeY][MiniX][MiniY] == 'Player2':
+                                pygame.draw.rect(game_display, white, (pos_x,pos_y,50,50))
+                                pygame.draw.circle(game_display, blue, (pos_x+25,pos_y+25), 23)
+                                pygame.draw.circle(game_display, white, (pos_x+25,pos_y+25), 19)
+                            elif squares[LargeX][LargeY][MiniX][MiniY] == 'Player1':
                                 pygame.draw.rect(game_display, white, (pos_x,pos_y,50,50))
                                 pygame.draw.line(game_display, red, (pos_x+5,pos_y+5), (pos_x+45,pos_y+45),5)
                                 pygame.draw.line(game_display, red, (pos_x+5,pos_y+45), (pos_x+45,pos_y+5),5)
-            click = pygame.mouse.get_pressed()
-            if click[0] == 1:
-                Player1 = False
-                print("Player2's Turn")
-                time.sleep(0.05)
 
             pygame.display.update()
             clock.tick(ticker)
@@ -115,16 +140,15 @@ def intro_loop(intro = True, squares = squares):
                             pos_x = (150+es)*LargeX+50*MiniX+es
                             pos_y = (150+es)*LargeY+50*MiniY+es
                             if squares[LargeX][LargeY][MiniX][MiniY] == True:
-                                squares = create_button(pos_x, pos_y, LargeX, LargeY, MiniX, MiniY, squares)
-                            else:
+                                squares, Player1 = player2_button(pos_x, pos_y, LargeX, LargeY, MiniX, MiniY, squares, Player1)
+                            elif squares[LargeX][LargeY][MiniX][MiniY] == 'Player2':
                                 pygame.draw.rect(game_display, white, (pos_x,pos_y,50,50))
                                 pygame.draw.circle(game_display, blue, (pos_x+25,pos_y+25), 23)
                                 pygame.draw.circle(game_display, white, (pos_x+25,pos_y+25), 19)
-            click = pygame.mouse.get_pressed()
-            if click[0] == 1:
-                print("Player 1's turn")
-                Player1 = True
-                time.sleep(0.05)
+                            elif squares[LargeX][LargeY][MiniX][MiniY] == 'Player1':
+                                pygame.draw.rect(game_display, white, (pos_x,pos_y,50,50))
+                                pygame.draw.line(game_display, red, (pos_x+5,pos_y+5), (pos_x+45,pos_y+45),5)
+                                pygame.draw.line(game_display, red, (pos_x+5,pos_y+45), (pos_x+45,pos_y+5),5)
 
             pygame.display.update()
             clock.tick(ticker)
