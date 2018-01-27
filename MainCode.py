@@ -198,6 +198,9 @@ def intro_loop(intro = True, squares = squares):
                             # Draws Cicle
                             pygame.draw.rect(game_display, white, (pos_x,pos_y,50,50))
                             pygame.draw.circle(game_display, blue, (pos_x+25,pos_y+25), 23, 4)
+                            if [LX,LY,MX,MY] == Game_records[-1]:
+                                pygame.draw.rect(game_display, blue2, (pos_x,pos_y,50,50))
+                                pygame.draw.circle(game_display, blue, (pos_x+25,pos_y+25), 23, 4)
 
                             if Crosses:
                                 # Only Undo button if it is a naught (because it's crosses turn, so last thing placed was a naught)
@@ -206,9 +209,13 @@ def intro_loop(intro = True, squares = squares):
                         elif squares[LargeX][LargeY][MiniX][MiniY] == 'Crosses':
 
                             # Draws Cross
-                            pygame.draw.rect(game_display, pink, (pos_x,pos_y,50,50))
+                            pygame.draw.rect(game_display, white, (pos_x,pos_y,50,50))
                             pygame.draw.line(game_display, red, (pos_x+5,pos_y+5), (pos_x+45,pos_y+45),5)
                             pygame.draw.line(game_display, red, (pos_x+5,pos_y+45), (pos_x+45,pos_y+5),5)
+                            if [LX,LY,MX,MY] == Game_records[-1]:
+                                pygame.draw.rect(game_display, pink1, (pos_x,pos_y,50,50))
+                                pygame.draw.line(game_display, red, (pos_x+5,pos_y+5), (pos_x+45,pos_y+45),5)
+                                pygame.draw.line(game_display, red, (pos_x+5,pos_y+45), (pos_x+45,pos_y+5),5)
 
                             if not Crosses:
                                 # Only Undo button if it is a cross (because it's naughts turn, so last thing placed was a cross)
