@@ -90,7 +90,6 @@ def UndoNaughts(squares, Crosses, X, Y, x, y, pos_x, pos_y):
             click = pygame.mouse.get_pressed()
             print(click[0])
             if click[0] == 1:
-                print('clicked')
                 time.sleep(0.1)
                 squares[X][Y][x][y] = True
                 Crosses = False
@@ -102,7 +101,6 @@ def UndoCrosses(squares, Crosses, X, Y, x, y, pos_x, pos_y):
         mouse = pygame.mouse.get_pos()
         if pos_x + 50 > mouse[0] > pos_x and pos_y + 50 > mouse[1] > pos_y:
             if click[0] == 1:
-                print('clicked')
                 time.sleep(0.1)
                 squares[X][Y][x][y] = True
                 Crosses = True
@@ -111,29 +109,28 @@ def UndoCrosses(squares, Crosses, X, Y, x, y, pos_x, pos_y):
 def check_if_gameover():
     return False
 
-def HasMiniGameWon(squares,LargeX,LargeY):
-    winner = 'no winner'
+def HasMiniGameWon(squares,X,Y,NandC):
     for Type in ['Naughts', 'Crosses']:
-        if squares[LargeX][LargeY][1][1] == Type: # if middle square is equal to the tpye
-            if squares[LargeX][LargeY][1][0] == Type and squares[LargeX][LargeY][1][2] == Type: # if left middle and right middle
-                winner = 'The winner is' + Type
-            if squares[LargeX][LargeY][0][0] == Type and squares[LargeX][LargeY][2][2] == Type: # if top right and bottom left
-                winner = 'The winner is' + Type
-            if squares[LargeX][LargeY][0][1] == Type and squares[LargeX][LargeY][2][1] == Type: # if top middle and bottom middle
-                winner = 'The winner is' + Type
-            if squares[LargeX][LargeY][0][2] == Type and squares[LargeX][LargeY][2][0] == Type: # if bottom left and top right
-                winner = 'The winner is' + Type
-        if squares[LargeX][LargeY][0][0] == Type: # if top left has won
-            if squares[LargeX][LargeY][0][1] == Type and squares[LargeX][LargeY][0][2] == Type: # if top middle and top right
-                winner = 'The winner is' + Type
-            if squares[LargeX][LargeY][1][0] == Type and squares[LargeX][LargeY][2][0] == Type: # if right middle and bottom right
-                winner = 'The winner is' + Type
-        if squares[LargeX][LargeY][2][2] == Type: # if bottom left has won
-            if squares[LargeX][LargeY][0][2] == Type and squares[LargeX][LargeY][1][2] == Type: # top right and middle right
-                winner = 'The winner is' + Type
-            if squares[LargeX][LargeY][2][0] == Type and squares[LargeX][LargeY][2][1] == Type: # bottom left and bottom middle
-                winner = 'The winner is' + Type
-    return winner
+        if squares[X][Y][1][1] == Type: # if middle square is equal to the tpye
+            if squares[X][Y][1][0] == Type and squares[X][Y][1][2] == Type: # if left middle and right middle
+                NandC[X][Y] = Type
+            if squares[X][Y][0][0] == Type and squares[X][Y][2][2] == Type: # if top right and bottom left
+                NandC[X][Y] = Type
+            if squares[X][Y][0][1] == Type and squares[X][Y][2][1] == Type: # if top middle and bottom middle
+                NandC[X][Y] = Type
+            if squares[X][Y][0][2] == Type and squares[X][Y][2][0] == Type: # if bottom left and top right
+                NandC[X][Y] = Type
+        if squares[X][Y][0][0] == Type: # if top left has won
+            if squares[X][Y][0][1] == Type and squares[X][Y][0][2] == Type: # if top middle and top right
+                NandC[X][Y] = Type
+            if squares[X][Y][1][0] == Type and squares[X][Y][2][0] == Type: # if right middle and bottom right
+                NandC[X][Y] = Type
+        if squares[X][Y][2][2] == Type: # if bottom left has won
+            if squares[X][Y][0][2] == Type and squares[X][Y][1][2] == Type: # top right and middle right
+                NandC[X][Y] = Type
+            if squares[X][Y][2][0] == Type and squares[X][Y][2][1] == Type: # bottom left and bottom middle
+                NandC[X][Y] = Type
+    return NandC
 
 def intro_loop(intro = True, squares = squares):
     gameover = False
@@ -141,6 +138,7 @@ def intro_loop(intro = True, squares = squares):
     width = 50
     mouse = pygame.mouse.get_pos()
     undo = False
+    NandC = [['-','-','-'],['-','-','-'],['-','-','-']]
 
     while gameover == False:
         if Crosses == True:
@@ -155,8 +153,8 @@ def intro_loop(intro = True, squares = squares):
             for LargeX in range(0,3):
                 for LargeY in range(0,3):
                     click = pygame.mouse.get_pressed()
-                    #if click[0] == 1:
-                        #print(HasMiniGameWon(squares,LargeX,LargeY),'for the large box (',LargeX,',',LargeY,')')
+                    if click[0] == 1:
+                        NandC = HasMiniGameWon(squares,LargeX,LargeY,NandC)
                     for MiniX in range(0,3):
                         for MiniY in range(0,3):
                             pos_x = (150+es)*LargeX+50*MiniX+es
@@ -185,6 +183,8 @@ def intro_loop(intro = True, squares = squares):
 
                                 # Undo button
                                 squares, Crosses = UndoCrosses(squares, Crosses, LargeX, LargeY, MiniX, MiniY, pos_x, pos_y)
+            if click[0] == 1:
+                print(NandC)
 
             pygame.display.update()
             clock.tick(ticker)
