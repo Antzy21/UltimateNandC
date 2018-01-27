@@ -83,6 +83,16 @@ def player2_button(pos_x, pos_y, X, Y, x, y, squares, Player1, width=50, height=
         pygame.draw.rect(game_display, colour, (pos_x,pos_y,width,height))
     return squares, Player1
 
+def undo():
+    if (pygame.key.get_pressed()[pygame.K_z]) and Player1 == True:
+        print("recognising undo")
+        print(pygame.key.get_pressed())
+        click = pygame.mouse.get_pressed()
+        if click[0] == 1:
+            time.sleep(0.1)
+            squares[X][Y][x][y] = True
+            Player1 = False
+
 def check_if_gameover():
     return False
 
@@ -91,6 +101,7 @@ def intro_loop(intro = True, squares = squares):
     Player1 = True
     width = 50
     mouse = pygame.mouse.get_pos()
+    undo = False
 
     while gameover == False:
         if Player1 == True:
