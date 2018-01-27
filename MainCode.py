@@ -165,6 +165,7 @@ def intro_loop(intro = True, squares = squares):
     width = 50
     mouse = pygame.mouse.get_pos()
     undo = False
+    winner = None
 
     NandC = [['-','-','-'],['-','-','-'],['-','-','-']]
 
