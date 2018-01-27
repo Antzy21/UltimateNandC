@@ -159,6 +159,23 @@ def HasMiniGameWon(squares,X,Y,NandC):
                 NandC[X][Y] = Type
     return NandC
 
+def mainmenu_loop(mainmenu = True):
+    while mainmenu:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+        game_display.fill(black)
+        message_display(text = 'ULTIMATE', position = (display_width*(10/20),display_height*(4/20)), text_size = 50)
+        message_display(text = 'Naughts and Crosses', position = (display_width*(10/20),display_height*(4/20)), text_size = 50)
+        normal_button(50, 50, 50, 50, game_loop)
+
+        pygame.display.update()
+        clock.tick(60)
+    intro = False
+
+
 def game_loop(squares = squares):
     gameover = False
     Crosses = True
