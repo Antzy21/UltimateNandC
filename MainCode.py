@@ -170,7 +170,7 @@ def intro_loop(intro = True, squares = squares):
 
     Game_records = []
 
-    while winner = None:
+    while winner == None:
         # If Quit
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
