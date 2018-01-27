@@ -7,7 +7,7 @@ pygame.init()
 clock = pygame.time.Clock()
 #test comment
 
-es = 5
+es = 5  # es = "edge space"
 
 display_width = 450
 display_height = 450
