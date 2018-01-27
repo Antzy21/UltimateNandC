@@ -12,7 +12,7 @@ es = 5
 display_width = 450
 display_height = 450
 game_display = pygame.display.set_mode((display_width + 4*es,display_height + 4*es))
-pygame.display.set_caption('Ultitmate Naughts and Crosses')
+pygame.display.set_caption('Ultimate Naughts and Crosses')
 
 # Create colours
 black  = (0,0,0)
@@ -165,8 +165,7 @@ def intro_loop(intro = True, squares = squares):
 
                                 # Draws Cicle
                                 pygame.draw.rect(game_display, white, (pos_x,pos_y,50,50))
-                                pygame.draw.circle(game_display, blue, (pos_x+25,pos_y+25), 23)
-                                pygame.draw.circle(game_display, white, (pos_x+25,pos_y+25), 19)
+                                pygame.draw.circle(game_display, blue, (pos_x+25,pos_y+25), 23, 4)
 
                                 # Only Undo button if it is a naught (because its crosses turn, so last thing placed was a naught)
                                 squares, Crosses = UndoNaughts(squares, Crosses, LargeX, LargeY, MiniX, MiniY, pos_x, pos_y)
@@ -179,11 +178,13 @@ def intro_loop(intro = True, squares = squares):
                                 pygame.draw.line(game_display, red, (pos_x+5,pos_y+45), (pos_x+45,pos_y+5),5)
                     NandC = HasMiniGameWon(squares,LargeX,LargeY,NandC)
                     if NandC[LargeX][LargeY] == 'Crosses':
-                        pygame.draw.line(game_display, red, (LargeX*150,LargeY*150), ((LargeX+1)*150,(LargeY+1)*150),5)
-                        pygame.draw.line(game_display, red, (LargeX*150,LargeY*150), ((LargeX+1)*150,(LargeY+1)*150),5)
+
+                        pygame.draw.line(game_display, red, (LargeX*(150+es)+es,LargeY*(150+es)+es), ((LargeX+1)*(150+es),(LargeY+1)*(150+es)),5)
+                        pygame.draw.line(game_display, red, (LargeX*(150+es)+es,(LargeY+1)*(150+es)), ((LargeX+1)*(150+es),LargeY*(150+es)+es),5)
+
                     elif NandC[LargeX][LargeY] == 'Naughts':
-                        pygame.draw.circle(game_display, blue, (LargeX*150+75,LargeY*150+75), 69)
-                        pygame.draw.circle(game_display, white, (LargeX*150+75,LargeY*150+75), 57)
+                        pygame.draw.circle(game_display, blue, (LargeX*(150+es)+es+75,LargeY*(150+es)+es+75), 68, 8)
+
             click = pygame.mouse.get_pressed()
             if click[0] == 1:
                 print(NandC)
@@ -216,8 +217,7 @@ def intro_loop(intro = True, squares = squares):
 
                                 # Make Naught
                                 pygame.draw.rect(game_display, white, (pos_x,pos_y,50,50))
-                                pygame.draw.circle(game_display, blue, (pos_x+25,pos_y+25), 23)
-                                pygame.draw.circle(game_display, white, (pos_x+25,pos_y+25), 19)
+                                pygame.draw.circle(game_display, blue, (pos_x+25,pos_y+25), 23, 4)
 
                             elif squares[LargeX][LargeY][MiniX][MiniY] == 'Crosses':
 
@@ -228,7 +228,14 @@ def intro_loop(intro = True, squares = squares):
 
                                 # Only Undo button if it is a cross (because its naughts turn, so last thing placed was a cross)
                                 squares, Crosses = UndoCrosses(squares, Crosses, LargeX, LargeY, MiniX, MiniY, pos_x, pos_y)
+                    NandC = HasMiniGameWon(squares,LargeX,LargeY,NandC)
+                    if NandC[LargeX][LargeY] == 'Crosses':
 
+                        pygame.draw.line(game_display, red, (LargeX*(150+es)+es,LargeY*(150+es)+es), ((LargeX+1)*(150+es),(LargeY+1)*(150+es)),5)
+                        pygame.draw.line(game_display, red, (LargeX*(150+es)+es,(LargeY+1)*(150+es)), ((LargeX+1)*(150+es),LargeY*(150+es)+es),5)
+
+                    elif NandC[LargeX][LargeY] == 'Naughts':
+                        pygame.draw.circle(game_display, blue, (LargeX*(150+es)+es+75,LargeY*(150+es)+es+75), 68, 8)
 
             pygame.display.update()
             clock.tick(ticker)
