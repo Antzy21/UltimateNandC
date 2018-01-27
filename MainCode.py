@@ -83,15 +83,15 @@ def Naughts_button(pos_x, pos_y, X, Y, x, y, squares, Crosses, width=50, height=
         pygame.draw.rect(game_display, colour, (pos_x,pos_y,width,height))
     return squares, Crosses
 
-def undo():
-    if (pygame.key.get_pressed()[pygame.K_z]) and Player1 == True:
+def Undo(squares, Crosses, X, Y, x, y):
+    if (pygame.key.get_pressed()[pygame.K_z]) and Crosses == True:
         print("recognising undo")
-        print(pygame.key.get_pressed())
         click = pygame.mouse.get_pressed()
         if click[0] == 1:
             time.sleep(0.1)
             squares[X][Y][x][y] = True
-            Player1 = False
+            Crosses = False
+    return squares, Crosses
 
 def check_if_gameover():
     return False
@@ -158,12 +158,18 @@ def intro_loop(intro = True, squares = squares):
                                 pygame.draw.circle(game_display, blue, (pos_x+25,pos_y+25), 23)
                                 pygame.draw.circle(game_display, white, (pos_x+25,pos_y+25), 19)
 
+                                # Undo button
+                                squares, Crosses = Undo(squares, Crosses, LargeX, LargeY, MiniX, MiniY)
+
                             elif squares[LargeX][LargeY][MiniX][MiniY] == 'Crosses':
 
                                 # Draws Cross
                                 pygame.draw.rect(game_display, white, (pos_x,pos_y,50,50))
                                 pygame.draw.line(game_display, red, (pos_x+5,pos_y+5), (pos_x+45,pos_y+45),5)
                                 pygame.draw.line(game_display, red, (pos_x+5,pos_y+45), (pos_x+45,pos_y+5),5)
+
+                                # Undo button
+                                squares, Crosses = Undo(squares, Crosses, LargeX, LargeY, MiniX, MiniY)
 
             pygame.display.update()
             clock.tick(ticker)
