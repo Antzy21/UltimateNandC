@@ -98,30 +98,14 @@ def Naughts_button(pos_x, pos_y, X, Y, x, y, squares, Crosses, Game_records, wid
             print(Game_records[-1])
     else:
         pygame.draw.rect(game_display, colour, (pos_x,pos_y,width,height))
-    return squares, Crosses, Game_records
+    return squares, Game_records
 
-def UndoNaughts(squares, Crosses, X, Y, x, y, pos_x, pos_y):
-    if (pygame.key.get_pressed()[pygame.K_z]) and Crosses == True:
-        mouse = pygame.mouse.get_pos()
-        if pos_x + 50 > mouse[0] > pos_x and pos_y + 50 > mouse[1] > pos_y:
-            click = pygame.mouse.get_pressed()
-            print(click[0])
-            if click[0] == 1:
-                time.sleep(0.1)
-                squares[X][Y][x][y] = True
-                Crosses = False
-    return squares, Crosses
-
-def UndoCrosses(squares, Crosses, X, Y, x, y, pos_x, pos_y):
-    if (pygame.key.get_pressed()[pygame.K_z]) and Crosses == False:
-        click = pygame.mouse.get_pressed()
-        mouse = pygame.mouse.get_pos()
-        if pos_x + 50 > mouse[0] > pos_x and pos_y + 50 > mouse[1] > pos_y:
-            if click[0] == 1:
-                time.sleep(0.1)
-                squares[X][Y][x][y] = True
-                Crosses = True
-    return squares, Crosses
+def Undo(squares, Game_records, X, Y, x, y, pos_x, pos_y):
+    if (pygame.key.get_pressed()[pygame.K_z]):
+        squares[X][Y][x][y] = True
+        Game_records.pop(-1)
+        time.sleep(0.5)
+    return squares, Game_records
 
 def check_if_gameover(NandC):
     winner = None
