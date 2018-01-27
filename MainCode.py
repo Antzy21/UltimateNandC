@@ -159,7 +159,7 @@ def HasMiniGameWon(squares,X,Y,NandC):
                 NandC[X][Y] = Type
     return NandC
 
-def intro_loop(intro = True, squares = squares):
+def game_loop(squares = squares):
     gameover = False
     Crosses = True
     width = 50
