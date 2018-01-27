@@ -61,7 +61,6 @@ def Crosses_button(pos_x, pos_y, X, Y, x, y, squares, Crosses, Game_records, wid
         if click[0] == 1:
             time.sleep(0.1)
             squares[X][Y][x][y] = 'Crosses'
-            print('Crosses is now false')
             Game_records.append([X,Y,x,y])
             Crosses = False
     else:
@@ -82,7 +81,6 @@ def Naughts_button(pos_x, pos_y, X, Y, x, y, squares, Crosses, Game_records, wid
         if click[0] == 1:
             time.sleep(0.1)
             squares[X][Y][x][y] = 'Naughts'
-            print('Crosses is now true')
             Crosses = True
             Game_records.append([X,Y,x,y])
     else:
