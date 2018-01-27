@@ -97,7 +97,7 @@ def UndoNaughts(squares, Crosses, X, Y, x, y, pos_x, pos_y):
     return squares, Crosses
 
 def UndoCrosses(squares, Crosses, X, Y, x, y, pos_x, pos_y):
-    if (pygame.key.get_pressed()[pygame.K_z]) and Crosses == True:
+    if (pygame.key.get_pressed()[pygame.K_z]) and Crosses == False:
         click = pygame.mouse.get_pressed()
         mouse = pygame.mouse.get_pos()
         if pos_x + 50 > mouse[0] > pos_x and pos_y + 50 > mouse[1] > pos_y:
@@ -229,7 +229,7 @@ def intro_loop(intro = True, squares = squares):
                                 pygame.draw.line(game_display, red, (pos_x+5,pos_y+45), (pos_x+45,pos_y+5),5)
 
                                 # Undo button
-                                squares, Crosses = UndoCrosses(squares, Crosses, LargeX, LargeY, MiniX, MiniY, pos_x, pos_y)
+                                squares, Crosses = UndoNaughts(squares, Crosses, LargeX, LargeY, MiniX, MiniY, pos_x, pos_y)
 
 
             pygame.display.update()
