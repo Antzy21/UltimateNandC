@@ -275,7 +275,4 @@ def game_loop(squares = squares):
 
         winner = check_if_gameover(NandC)
 
-    return Game_records, winner
-GR, winner = intro_loop()
-
-print(winner, GR)
+mainmenu_loop()
