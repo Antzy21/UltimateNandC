@@ -136,12 +136,20 @@ def intro_loop(intro = True, squares = squares):
                             pos_x = (150+es)*LargeX+50*MiniX+es
                             pos_y = (150+es)*LargeY+50*MiniY+es
                             if squares[LargeX][LargeY][MiniX][MiniY] == True:
+
+                                # Makes button
                                 squares, Crosses = Crosses_button(pos_x, pos_y, LargeX, LargeY, MiniX, MiniY, squares, Crosses)
+
                             elif squares[LargeX][LargeY][MiniX][MiniY] == 'Naughts':
+
+                                # Draws Cicle
                                 pygame.draw.rect(game_display, white, (pos_x,pos_y,50,50))
                                 pygame.draw.circle(game_display, blue, (pos_x+25,pos_y+25), 23)
                                 pygame.draw.circle(game_display, white, (pos_x+25,pos_y+25), 19)
+
                             elif squares[LargeX][LargeY][MiniX][MiniY] == 'Crosses':
+
+                                # Draws Cross
                                 pygame.draw.rect(game_display, white, (pos_x,pos_y,50,50))
                                 pygame.draw.line(game_display, red, (pos_x+5,pos_y+5), (pos_x+45,pos_y+45),5)
                                 pygame.draw.line(game_display, red, (pos_x+5,pos_y+45), (pos_x+45,pos_y+5),5)
