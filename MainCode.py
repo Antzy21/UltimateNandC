@@ -112,7 +112,7 @@ def UndoCrosses(squares, Crosses, X, Y, x, y, pos_x, pos_y):
                 Crosses = True
     return squares, Crosses
 
-def check_if_gameover():
+def check_if_gameover(NandC):
     winner = None
     for Type in ['Naughts', 'Crosses']:
         if NandC[1][1] == Type: # if middle square is equal to the tpye
@@ -228,7 +228,9 @@ def intro_loop(intro = True, squares = squares):
                                 # Only Undo button if it is a cross (because it's naughts turn, so last thing placed was a cross)
                                 squares, Crosses = UndoCrosses(squares, Crosses, LX, LY, MX, MY, pos_x, pos_y)
 
+                # Check if any big squares have been won
                 NandC = HasMiniGameWon(squares,LX,LY,NandC)
+
                 if NandC[LX][LY] == 'Crosses': # if large box has been won by crosses
                     # left-top to right-bottom
                     pygame.draw.line(game_display, red, (LX*(150+es)+2*es,LY*(150+es)+4*es), ((LX+1)*(150+es)-3*es,(LY+1)*(150+es)-es),5)
@@ -244,9 +246,9 @@ def intro_loop(intro = True, squares = squares):
         pygame.display.update()
         clock.tick(ticker)
 
-    winner = check_if_gameover()
+        winner = check_if_gameover(NandC)
 
-    return Game_records
-GR = intro_loop()
+    return Game_records, winner
+GR, winner = intro_loop()
 
-print(GR)
+print(winner, GR)
