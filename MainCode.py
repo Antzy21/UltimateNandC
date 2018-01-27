@@ -47,6 +47,16 @@ def message_display(text = '"insert text"',text_size = 20, position = (display_w
     text_rect.center = position
     game_display.blit(text_surface, text_rect)
 
+def normal_button(pos_x, pos_y, width, height, action = None, colour = cyan, hover_colour = blue2):
+    mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
+    if pos_x + width > mouse[0] > pos_x and pos_y + height > mouse[1] > pos_y:
+        pygame.draw.rect(game_display, hover_colour, (pos_x,pos_y,width,height))
+        if click[0] == 1:
+            action()
+    else:
+        pygame.draw.rect(game_display, colour, (pos_x,pos_y,width,height))
+
 def Crosses_button(pos_x, pos_y, X, Y, x, y, squares, Crosses, Game_records, width=50, height=50, colour = white, hover_colour = white):
     if Crosses:
         Crosses = True
