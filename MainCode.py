@@ -58,11 +58,7 @@ def normal_button(pos_x, pos_y, width, height, action = None, colour = cyan, hov
     else:
         pygame.draw.rect(game_display, colour, (pos_x,pos_y,width,height))
 
-def Crosses_button(pos_x, pos_y, X, Y, x, y, squares, Crosses, Game_records, width=50, height=50, colour = white, hover_colour = white):
-    if Crosses:
-        Crosses = True
-    else:
-        Crosses == False
+def Crosses_button(pos_x, pos_y, X, Y, x, y, squares, Game_records, width=50, height=50, colour = white, hover_colour = white):
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
     if pos_x + width > mouse[0] > pos_x and pos_y + height > mouse[1] > pos_y:
@@ -74,16 +70,11 @@ def Crosses_button(pos_x, pos_y, X, Y, x, y, squares, Crosses, Game_records, wid
             squares[X][Y][x][y] = 'Crosses'
             Game_records.append([X,Y,x,y])
             print(Game_records[-1])
-            Crosses = False
     else:
         pygame.draw.rect(game_display, colour, (pos_x,pos_y,width,height))
-    return squares, Crosses, Game_records
+    return squares, Game_records
 
-def Naughts_button(pos_x, pos_y, X, Y, x, y, squares, Crosses, Game_records, width=50, height=50, colour = white, hover_colour = white):
-    if Crosses:
-        Crosses = True
-    else:
-        Crosses == False
+def Naughts_button(pos_x, pos_y, X, Y, x, y, squares, Game_records, width=50, height=50, colour = white, hover_colour = white):
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
     if pos_x + width > mouse[0] > pos_x and pos_y + height > mouse[1] > pos_y:
@@ -93,7 +84,6 @@ def Naughts_button(pos_x, pos_y, X, Y, x, y, squares, Crosses, Game_records, wid
         if click[0] == 1:
             time.sleep(0.1)
             squares[X][Y][x][y] = 'Naughts'
-            Crosses = True
             Game_records.append([X,Y,x,y])
             print(Game_records[-1])
     else:
@@ -173,7 +163,6 @@ def mainmenu_loop(mainmenu = True):
 
 def game_loop(squares = squares):
     gameover = False
-    Crosses = True
     width = 50
     mouse = pygame.mouse.get_pos()
     undo = False
@@ -181,7 +170,7 @@ def game_loop(squares = squares):
 
     NandC = [['-','-','-'],['-','-','-'],['-','-','-']]
 
-    Game_records = [[1,1,1,1]]
+    Game_records = []
 
     while winner == None:
         # If Quit
@@ -204,16 +193,19 @@ def game_loop(squares = squares):
                             try:
                                 BigX, BigY = Game_records[-1][2:]
                                 if LX == BigX and LY == BigY:
-                                    if Crosses == True:
+                                    if len(Game_records) % 2 == 0:
                                     # Makes Crosses button
-                                        squares, Crosses, Game_records = Crosses_button(pos_x, pos_y, LX, LY, MX, MY, squares, Crosses, Game_records)
-                                    elif Crosses == False:
+                                        squares, Game_records = Crosses_button(pos_x, pos_y, LX, LY, MX, MY, squares, Game_records)
+                                    else:
                                     # Makes Naughts buton
-                                        squares, Crosses, Game_records = Naughts_button(pos_x, pos_y, LX, LY, MX, MY, squares, Crosses, Game_records)
+                                        squares, Game_records = Naughts_button(pos_x, pos_y, LX, LY, MX, MY, squares, Game_records)
                                 else:
-                                    pygame.draw.rect(game_display, white, (pos_x,pos_y,50,50))
+                                    pygame.draw.rect(game_display, grey, (pos_x,pos_y,50,50))
                             except:
-                                squares, Crosses, Game_records = Crosses_button(pos_x, pos_y, LX, LY, MX, MY, squares, Crosses, Game_records)
+                                if LX == 1 and LY == 1 and (MY, MX) != (1, 1):
+                                    squares, Game_records = Crosses_button(pos_x, pos_y, LX, LY, MX, MY, squares, Game_records)
+                                else:
+                                    pygame.draw.rect(game_display, grey, (pos_x,pos_y,50,50))
                         elif squares[LX][LY][MX][MY] == 'Naughts':
 
                             # Draws Cicle
@@ -223,9 +215,9 @@ def game_loop(squares = squares):
                                 pygame.draw.rect(game_display, blue1, (pos_x,pos_y,50,50))
                                 pygame.draw.circle(game_display, blue, (pos_x+25,pos_y+25), 23, 4)
 
-                            if Crosses:
+                            if len(Game_records) % 2 == 0:
                                 # Only Undo button if it is a naught (because it's crosses turn, so last thing placed was a naught)
-                                squares, Crosses = UndoNaughts(squares, Crosses, LX, LY, MX, MY, pos_x, pos_y)
+                                squares, Game_records = Undo(squares, Game_records, LX, LY, MX, MY, pos_x, pos_y)
 
                         elif squares[LX][LY][MX][MY] == 'Crosses':
 
@@ -238,9 +230,9 @@ def game_loop(squares = squares):
                                 pygame.draw.line(game_display, red, (pos_x+5,pos_y+5), (pos_x+45,pos_y+45),5)
                                 pygame.draw.line(game_display, red, (pos_x+5,pos_y+45), (pos_x+45,pos_y+5),5)
 
-                            if not Crosses:
+                            if len(Game_records) % 2 == 1:
                                 # Only Undo button if it is a cross (because it's naughts turn, so last thing placed was a cross)
-                                squares, Crosses = UndoCrosses(squares, Crosses, LX, LY, MX, MY, pos_x, pos_y)
+                                squares, Game_records = Undo(squares, Game_records, LX, LY, MX, MY, pos_x, pos_y)
 
                 # Check if any big squares have been won
                 NandC = HasMiniGameWon(squares,LX,LY,NandC)
