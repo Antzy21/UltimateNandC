@@ -184,7 +184,7 @@ def intro_loop(intro = True, squares = squares):
                                 pygame.draw.line(game_display, red, (pos_x+5,pos_y+45), (pos_x+45,pos_y+5),5)
 
                                 # Undo button
-                                squares, Crosses = UndoCrosses(squares, Crosses, LargeX, LargeY, MiniX, MiniY, pos_x, pos_y)
+                                #squares, Crosses = UndoNaughts(squares, Crosses, LargeX, LargeY, MiniX, MiniY, pos_x, pos_y)
 
             pygame.display.update()
             clock.tick(ticker)
@@ -218,7 +218,7 @@ def intro_loop(intro = True, squares = squares):
                                 pygame.draw.circle(game_display, white, (pos_x+25,pos_y+25), 19)
 
                                 # Undo button
-                                squares, Crosses = UndoCrosses(squares, Crosses, LargeX, LargeY, MiniX, MiniY, pos_x, pos_y)
+                                #squares, Crosses = UndoCrosses(squares, Crosses, LargeX, LargeY, MiniX, MiniY, pos_x, pos_y)
 
 
                             elif squares[LargeX][LargeY][MiniX][MiniY] == 'Crosses':
@@ -229,7 +229,7 @@ def intro_loop(intro = True, squares = squares):
                                 pygame.draw.line(game_display, red, (pos_x+5,pos_y+45), (pos_x+45,pos_y+5),5)
 
                                 # Undo button
-                                squares, Crosses = UndoNaughts(squares, Crosses, LargeX, LargeY, MiniX, MiniY, pos_x, pos_y)
+                                squares, Crosses = UndoCrosses(squares, Crosses, LargeX, LargeY, MiniX, MiniY, pos_x, pos_y)
 
 
             pygame.display.update()
