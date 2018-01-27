@@ -196,7 +196,7 @@ def game_loop(squares = squares):
 
     NandC = [['-','-','-'],['-','-','-'],['-','-','-']]
 
-    Game_records = []
+    Game_records = [[1,1,1,1]]
 
     while winner == None:
         # If Quit
@@ -216,18 +216,24 @@ def game_loop(squares = squares):
                         pos_x = (150+es)*LX+50*MX+es
                         pos_y = (150+es)*LY+50*MY+es
                         if squares[LX][LY][MX][MY] == True:
-                            if Crosses:
-                                # Makes Crosses button
+                            try:
+                                BigX, BigY = Game_records[-1][2:]
+                                if LX == BigX and LY == BigY:
+                                    if Crosses == True:
+                                    # Makes Crosses button
+                                        squares, Crosses, Game_records = Crosses_button(pos_x, pos_y, LX, LY, MX, MY, squares, Crosses, Game_records)
+                                    elif Crosses == False:
+                                    # Makes Naughts buton
+                                        squares, Crosses, Game_records = Naughts_button(pos_x, pos_y, LX, LY, MX, MY, squares, Crosses, Game_records)
+                                else:
+                                    pygame.draw.rect(game_display, white, (pos_x,pos_y,50,50))
+                            except:
                                 squares, Crosses, Game_records = Crosses_button(pos_x, pos_y, LX, LY, MX, MY, squares, Crosses, Game_records)
-                            else:
-                                # Makes Naughts buton
-                                squares, Crosses, Game_records = Naughts_button(pos_x, pos_y, LX, LY, MX, MY, squares, Crosses, Game_records)
                         elif squares[LX][LY][MX][MY] == 'Naughts':
 
                             # Draws Cicle
                             pygame.draw.rect(game_display, white, (pos_x,pos_y,50,50))
                             pygame.draw.circle(game_display, blue, (pos_x+25,pos_y+25), 23, 4)
-
                             if [LX,LY,MX,MY] == Game_records[-1]:
                                 pygame.draw.rect(game_display, blue1, (pos_x,pos_y,50,50))
                                 pygame.draw.circle(game_display, blue, (pos_x+25,pos_y+25), 23, 4)
@@ -242,10 +248,6 @@ def game_loop(squares = squares):
                             pygame.draw.rect(game_display, white, (pos_x,pos_y,50,50))
                             pygame.draw.line(game_display, red, (pos_x+5,pos_y+5), (pos_x+45,pos_y+45),5)
                             pygame.draw.line(game_display, red, (pos_x+5,pos_y+45), (pos_x+45,pos_y+5),5)
-                            LX = LX
-                            LY = LY
-                            MX = MX
-                            MY = MY
                             if [LX,LY,MX,MY] == Game_records[-1]:
                                 pygame.draw.rect(game_display, pink1, (pos_x,pos_y,50,50))
                                 pygame.draw.line(game_display, red, (pos_x+5,pos_y+5), (pos_x+45,pos_y+45),5)
