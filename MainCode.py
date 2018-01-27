@@ -20,8 +20,12 @@ white  = (255,255,255)
 red    = (255,0,0)
 green  = (0,255,0)
 blue   = (0,0,255)
+blue1  = (196,233,242)
+blue2  = (0,152,202)
 cyan   = (0,255,255)
 yellow = (255,255,0)
+pink   = (242,0,133)
+pink1  = (255,196,215)
 
 ticker = 60
 
@@ -71,7 +75,7 @@ def Naughts_button(pos_x, pos_y, X, Y, x, y, squares, Crosses, width=50, height=
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
     if pos_x + width > mouse[0] > pos_x and pos_y + height > mouse[1] > pos_y:
-        pygame.draw.rect(game_display, white, (pos_x,pos_y,width,height))
+        pygame.draw.rect(game_display, cyan, (pos_x,pos_y,width,height))
         pygame.draw.line(game_display, black, (pos_x+5,pos_y+25), (pos_x+45,pos_y+25),5)
         pygame.draw.line(game_display, black, (pos_x+25,pos_y+5), (pos_x+25,pos_y+45),5)
         if click[0] == 1:
@@ -174,7 +178,7 @@ def intro_loop(intro = True, squares = squares):
                             elif squares[LargeX][LargeY][MiniX][MiniY] == 'Crosses':
 
                                 # Draws Cross
-                                pygame.draw.rect(game_display, white, (pos_x,pos_y,50,50))
+                                pygame.draw.rect(game_display, pink, (pos_x,pos_y,50,50))
                                 pygame.draw.line(game_display, red, (pos_x+5,pos_y+5), (pos_x+45,pos_y+45),5)
                                 pygame.draw.line(game_display, red, (pos_x+5,pos_y+45), (pos_x+45,pos_y+5),5)
                     NandC = HasMiniGameWon(squares,LargeX,LargeY,NandC)
@@ -215,7 +219,7 @@ def intro_loop(intro = True, squares = squares):
                             elif squares[LargeX][LargeY][MiniX][MiniY] == 'Naughts':
 
                                 # Make Naught
-                                pygame.draw.rect(game_display, white, (pos_x,pos_y,50,50))
+                                pygame.draw.rect(game_display, blue2, (pos_x,pos_y,50,50))
                                 pygame.draw.circle(game_display, blue, (pos_x+25,pos_y+25), 23)
                                 pygame.draw.circle(game_display, white, (pos_x+25,pos_y+25), 19)
 
