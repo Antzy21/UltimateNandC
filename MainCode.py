@@ -113,7 +113,28 @@ def UndoCrosses(squares, Crosses, X, Y, x, y, pos_x, pos_y):
     return squares, Crosses
 
 def check_if_gameover():
-    return False
+    winner = None
+    for Type in ['Naughts', 'Crosses']:
+        if NandC[1][1] == Type: # if middle square is equal to the tpye
+            if NandC[1][0] == Type and NandC[1][2] == Type: # if left middle and right middle
+                winner = Type
+            if NandC[0][0] == Type and NandC[2][2] == Type: # if top right and bottom left
+                winner = Type
+            if NandC[0][1] == Type and NandC[2][1] == Type: # if top middle and bottom middle
+                winner = Type
+            if NandC[0][2] == Type and NandC[2][0] == Type: # if bottom left and top right
+                winner = Type
+        if NandC[0][0] == Type: # if top left has won
+            if NandC[0][1] == Type and NandC[0][2] == Type: # if top middle and top right
+                winner = Type
+            if NandC[1][0] == Type and NandC[2][0] == Type: # if right middle and bottom right
+                winner = Type
+        if NandC[2][2] == Type: # if bottom left has won
+            if NandC[0][2] == Type and NandC[1][2] == Type: # top right and middle right
+                winner = Type
+            if NandC[2][0] == Type and NandC[2][1] == Type: # bottom left and bottom middle
+                winner = Type
+    return winner
 
 def HasMiniGameWon(squares,X,Y,NandC):
     for Type in ['Naughts', 'Crosses']:
@@ -149,10 +170,11 @@ def intro_loop(intro = True, squares = squares):
 
     Game_records = []
 
-    while gameover == False:
+    while winner = None:
         # If Quit
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                print(Game_records)
                 pygame.quit()
                 quit()
 
@@ -205,8 +227,7 @@ def intro_loop(intro = True, squares = squares):
         pygame.display.update()
         clock.tick(ticker)
 
-        if len(Game_records) > 5:
-            gameover = True
+    winner = check_if_gameover()
 
     return Game_records
 GR = intro_loop()
