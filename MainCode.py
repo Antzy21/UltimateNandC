@@ -23,7 +23,7 @@ blue   = (0,0,255)
 cyan   = (0,255,255)
 yellow = (255,255,0)
 
-ticker = 20
+ticker = 60
 
 ms00 = [[True,True,True],[True,True,True],[True,True,True]]
 ms01 = [[True,True,True],[True,True,True],[True,True,True]]
@@ -83,14 +83,29 @@ def Naughts_button(pos_x, pos_y, X, Y, x, y, squares, Crosses, width=50, height=
         pygame.draw.rect(game_display, colour, (pos_x,pos_y,width,height))
     return squares, Crosses
 
-def Undo(squares, Crosses, X, Y, x, y):
+def UndoNaughts(squares, Crosses, X, Y, x, y, pos_x, pos_y):
     if (pygame.key.get_pressed()[pygame.K_z]) and Crosses == True:
-        print("recognising undo")
+        mouse = pygame.mouse.get_pos()
+        if pos_x + 50 > mouse[0] > pos_x and pos_y + 50 > mouse[1] > pos_y:
+            click = pygame.mouse.get_pressed()
+            print(click[0])
+            if click[0] == 1:
+                print('clicked')
+                time.sleep(0.1)
+                squares[X][Y][x][y] = True
+                Crosses = False
+    return squares, Crosses
+
+def UndoCrosses(squares, Crosses, X, Y, x, y, pos_x, pos_y):
+    if (pygame.key.get_pressed()[pygame.K_z]) and Crosses == True:
         click = pygame.mouse.get_pressed()
-        if click[0] == 1:
-            time.sleep(0.1)
-            squares[X][Y][x][y] = True
-            Crosses = False
+        mouse = pygame.mouse.get_pos()
+        if pos_x + 50 > mouse[0] > pos_x and pos_y + 50 > mouse[1] > pos_y:
+            if click[0] == 1:
+                print('clicked')
+                time.sleep(0.1)
+                squares[X][Y][x][y] = True
+                Crosses = True
     return squares, Crosses
 
 def check_if_gameover():
@@ -140,8 +155,8 @@ def intro_loop(intro = True, squares = squares):
             for LargeX in range(0,3):
                 for LargeY in range(0,3):
                     click = pygame.mouse.get_pressed()
-                    if click[0] == 1:
-                        print(HasMiniGameWon(squares,LargeX,LargeY),'for the large box (',LargeX,',',LargeY,')')
+                    #if click[0] == 1:
+                        #print(HasMiniGameWon(squares,LargeX,LargeY),'for the large box (',LargeX,',',LargeY,')')
                     for MiniX in range(0,3):
                         for MiniY in range(0,3):
                             pos_x = (150+es)*LargeX+50*MiniX+es
@@ -159,7 +174,7 @@ def intro_loop(intro = True, squares = squares):
                                 pygame.draw.circle(game_display, white, (pos_x+25,pos_y+25), 19)
 
                                 # Undo button
-                                squares, Crosses = Undo(squares, Crosses, LargeX, LargeY, MiniX, MiniY)
+                                squares, Crosses = UndoNaughts(squares, Crosses, LargeX, LargeY, MiniX, MiniY, pos_x, pos_y)
 
                             elif squares[LargeX][LargeY][MiniX][MiniY] == 'Crosses':
 
@@ -169,7 +184,7 @@ def intro_loop(intro = True, squares = squares):
                                 pygame.draw.line(game_display, red, (pos_x+5,pos_y+45), (pos_x+45,pos_y+5),5)
 
                                 # Undo button
-                                squares, Crosses = Undo(squares, Crosses, LargeX, LargeY, MiniX, MiniY)
+                                squares, Crosses = UndoCrosses(squares, Crosses, LargeX, LargeY, MiniX, MiniY, pos_x, pos_y)
 
             pygame.display.update()
             clock.tick(ticker)
@@ -191,15 +206,31 @@ def intro_loop(intro = True, squares = squares):
                             pos_x = (150+es)*LargeX+50*MiniX+es
                             pos_y = (150+es)*LargeY+50*MiniY+es
                             if squares[LargeX][LargeY][MiniX][MiniY] == True:
+
+                                # Make buton
                                 squares, Crosses = Naughts_button(pos_x, pos_y, LargeX, LargeY, MiniX, MiniY, squares, Crosses)
+
                             elif squares[LargeX][LargeY][MiniX][MiniY] == 'Naughts':
+
+                                # Make Naught
                                 pygame.draw.rect(game_display, white, (pos_x,pos_y,50,50))
                                 pygame.draw.circle(game_display, blue, (pos_x+25,pos_y+25), 23)
                                 pygame.draw.circle(game_display, white, (pos_x+25,pos_y+25), 19)
+
+                                # Undo button
+                                squares, Crosses = UndoCrosses(squares, Crosses, LargeX, LargeY, MiniX, MiniY, pos_x, pos_y)
+
+
                             elif squares[LargeX][LargeY][MiniX][MiniY] == 'Crosses':
+
+                                # Make Cross
                                 pygame.draw.rect(game_display, white, (pos_x,pos_y,50,50))
                                 pygame.draw.line(game_display, red, (pos_x+5,pos_y+5), (pos_x+45,pos_y+45),5)
                                 pygame.draw.line(game_display, red, (pos_x+5,pos_y+45), (pos_x+45,pos_y+5),5)
+
+                                # Undo button
+                                squares, Crosses = UndoCrosses(squares, Crosses, LargeX, LargeY, MiniX, MiniY, pos_x, pos_y)
+
 
             pygame.display.update()
             clock.tick(ticker)
