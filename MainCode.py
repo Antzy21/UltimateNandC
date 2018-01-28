@@ -196,25 +196,33 @@ def game_loop(squares = squares):
             for LY in range(0,3):
                 for MX in range(0,3):
                     for MY in range(0,3):
+                        
                         pos_x = (3*size+es)*LX+size*MX+es
                         pos_y = (3*size+es)*LY+size*MY+es
+
                         if squares[LX][LY][MX][MY] == True:
                             try:
+                                # If Game records exist and we can access the last one in the list
                                 BigX, BigY = Game_records[-1][2:]
                                 if LX == BigX and LY == BigY:
                                     if len(Game_records) % 2 == 0:
-                                    # Makes Crosses button
+                                        # Makes Crosses button
                                         squares, Game_records = Crosses_button(pos_x, pos_y, LX, LY, MX, MY, squares, Game_records, colour = alternate_grey)
                                     else:
-                                    # Makes Naughts buton
+                                        # Makes Naughts button
                                         squares, Game_records = Naughts_button(pos_x, pos_y, LX, LY, MX, MY, squares, Game_records, colour = alternate_grey)
                                 else:
+                                    # Fill in white square if no button
                                     pygame.draw.rect(game_display, white, (pos_x,pos_y,size,size))
                             except:
+                                # If no game records exist then only allow the starting positions to be buttons
                                 if LX == 1 and LY == 1 and (MY, MX) != (1, 1):
+                                    # Only center squares but not the middle middle square
                                     squares, Game_records = Crosses_button(pos_x, pos_y, LX, LY, MX, MY, squares, Game_records, colour = alternate_grey)
                                 else:
+                                    # Fill in white square if no button
                                     pygame.draw.rect(game_display, white, (pos_x,pos_y,size,size))
+
                         elif squares[LX][LY][MX][MY] == 'Naughts':
 
                             # Draws Cicle
