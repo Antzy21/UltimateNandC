@@ -135,7 +135,18 @@ def check_if_gameover(NandC):
     return winner
 
 def HasMiniGameWon(squares,X,Y,NandC):
-    for Type in ['Naughts', 'Crosses']:
+    current = NandC[X][Y]
+    NandC[X][Y] = '-'
+    listof = ['Naughts', 'Crosses']
+    if current == 'Naughts':
+        listof.remove('Crosses')
+        print('remove crosses')
+    elif current == 'Crosses':
+        listof.remove('Naughts')
+        print('remove naughts')
+    print(listof)
+
+    for Type in listof:
         if squares[X][Y][1][1] == Type: # if middle square is equal to the tpye
             if squares[X][Y][1][0] == Type and squares[X][Y][1][2] == Type: # if left middle and right middle
                 NandC[X][Y] = Type
