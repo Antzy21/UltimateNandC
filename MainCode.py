@@ -58,7 +58,7 @@ def normal_button(pos_x, pos_y, width, height, action = None, colour = cyan, hov
     else:
         pygame.draw.rect(game_display, colour, (pos_x,pos_y,width,height))
 
-def Crosses_button(pos_x, pos_y, X, Y, x, y, squares, Game_records, width=50, height=50, colour = white, hover_colour = white):
+def Crosses_button(pos_x, pos_y, X, Y, x, y, squares, Game_records, width=50, height=50, colour = grey, hover_colour = white):
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
     if pos_x + width > mouse[0] > pos_x and pos_y + height > mouse[1] > pos_y:
@@ -74,7 +74,7 @@ def Crosses_button(pos_x, pos_y, X, Y, x, y, squares, Game_records, width=50, he
         pygame.draw.rect(game_display, colour, (pos_x,pos_y,width,height))
     return squares, Game_records
 
-def Naughts_button(pos_x, pos_y, X, Y, x, y, squares, Game_records, width=50, height=50, colour = white, hover_colour = white):
+def Naughts_button(pos_x, pos_y, X, Y, x, y, squares, Game_records, width=50, height=50, colour = grey, hover_colour = white):
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
     if pos_x + width > mouse[0] > pos_x and pos_y + height > mouse[1] > pos_y:
@@ -162,6 +162,9 @@ def mainmenu_loop(mainmenu = True):
 
 
 def game_loop(squares = squares):
+    AG = 255
+    AG_change = -1
+    alternate_grey = (AG,AG,AG)
     gameover = False
     width = 50
     mouse = pygame.mouse.get_pos()
@@ -195,17 +198,17 @@ def game_loop(squares = squares):
                                 if LX == BigX and LY == BigY:
                                     if len(Game_records) % 2 == 0:
                                     # Makes Crosses button
-                                        squares, Game_records = Crosses_button(pos_x, pos_y, LX, LY, MX, MY, squares, Game_records)
+                                        squares, Game_records = Crosses_button(pos_x, pos_y, LX, LY, MX, MY, squares, Game_records, colour = alternate_grey)
                                     else:
                                     # Makes Naughts buton
-                                        squares, Game_records = Naughts_button(pos_x, pos_y, LX, LY, MX, MY, squares, Game_records)
+                                        squares, Game_records = Naughts_button(pos_x, pos_y, LX, LY, MX, MY, squares, Game_records, colour = alternate_grey)
                                 else:
-                                    pygame.draw.rect(game_display, grey, (pos_x,pos_y,50,50))
+                                    pygame.draw.rect(game_display, white, (pos_x,pos_y,size,size))
                             except:
                                 if LX == 1 and LY == 1 and (MY, MX) != (1, 1):
-                                    squares, Game_records = Crosses_button(pos_x, pos_y, LX, LY, MX, MY, squares, Game_records)
+                                    squares, Game_records = Crosses_button(pos_x, pos_y, LX, LY, MX, MY, squares, Game_records, colour = alternate_grey)
                                 else:
-                                    pygame.draw.rect(game_display, grey, (pos_x,pos_y,50,50))
+                                    pygame.draw.rect(game_display, white, (pos_x,pos_y,size,size))
                         elif squares[LX][LY][MX][MY] == 'Naughts':
 
                             # Draws Cicle
@@ -248,7 +251,16 @@ def game_loop(squares = squares):
                 elif NandC[LX][LY] == 'Naughts': # if large box has been won by naughts
                     pygame.draw.circle(game_display, blue, (LX*(150+es)+es+75,LY*(150+es)+es+75), 70, 5)
                     pygame.draw.circle(game_display, blue, (LX*(150+es)+es+75,LY*(150+es)+es+75), 55, 5)
+                    pygame.draw.circle(game_display, blue, (LX*(size*3+es)+es+size*3/2,LY*(size*3+es)+es+size*3/2), 70, 5)
+                    pygame.draw.circle(game_display, blue, (LX*(size*3+es)+es+size*3/2,LY*(size*3+es)+es+size*3/2), 55, 5)
 
+        AG += AG_change
+        if AG == 255:
+            AG_change = -1
+        elif AG == 200:
+            AG_change = 1
+
+        alternate_grey = (AG,AG,AG)
         pygame.display.update()
         clock.tick(ticker)
 
