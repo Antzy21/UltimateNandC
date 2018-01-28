@@ -16,6 +16,8 @@ Harry1Img = pygame.image.load('harry1.png')
 HarryToungeImg = pygame.image.load('harrytounge.png')
 
 # Load image of Crosses
+OctocatImg = pygame.image.load('octocat.png')
+# Load image of Crosses
 Drawn_Cross = pygame.image.load('Drawn_Cross.png')
 # Load image of Naughts
 Drawn_Naught = pygame.image.load('Drawn_Naught.png')
@@ -412,5 +414,5 @@ def game_loop(Cross_Image = None, Naughts_Image = None, squares = squares):
 
         winner = check_if_gameover(NandC)
 
-mainmenu_loop(CrossPNG = Drawn_Cross, NaughtsPNG = AdamImg)
+mainmenu_loop(CrossPNG = Drawn_Cross, NaughtsPNG = OctocatImg)
 #mainmenu_loop()
