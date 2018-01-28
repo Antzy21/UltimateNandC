@@ -98,8 +98,9 @@ def Naughts_button(pos_x, pos_y, X, Y, x, y, squares, Game_records, width = size
         pygame.draw.rect(game_display, colour, (pos_x,pos_y,width,height))
     return squares, Game_records
 
-def Undo(squares, Game_records, X, Y, x, y, pos_x, pos_y):
+def Undo(squares, Game_records):
     if (pygame.key.get_pressed()[pygame.K_z]):
+        X, Y, x, y = Game_records[-1]
         squares[X][Y][x][y] = True
         Game_records.pop(-1)
         time.sleep(0.5)
@@ -180,7 +181,6 @@ def game_loop(squares = squares):
     gameover = False
     width = size
     mouse = pygame.mouse.get_pos()
-    undo = False
     winner = None
 
     NandC = [['-','-','-'],['-','-','-'],['-','-','-']]
@@ -239,10 +239,6 @@ def game_loop(squares = squares):
                                 pygame.draw.rect(game_display, white, (pos_x,pos_y,size,size))
                             pygame.draw.circle(game_display, blue, (int(pos_x+size/2),int(pos_y+size/2)), int(size/2-es), es)
 
-                            if len(Game_records) % 2 == 0:
-                                # Only Undo button if it is a naught (because it's crosses turn, so last thing placed was a naught)
-                                squares, Game_records = Undo(squares, Game_records, LX, LY, MX, MY, pos_x, pos_y)
-
                         elif squares[LX][LY][MX][MY] == 'Crosses':
 
                             # Draws Cross
@@ -252,10 +248,6 @@ def game_loop(squares = squares):
                                 pygame.draw.rect(game_display, white, (pos_x,pos_y,size,size))
                             pygame.draw.line(game_display, red, (pos_x+es,pos_y+es     ), (pos_x+size-es,pos_y-es+size),es)
                             pygame.draw.line(game_display, red, (pos_x+es,pos_y-es+size), (pos_x+size-es,pos_y+es     ),es)
-
-                            if len(Game_records) % 2 == 1:
-                                # Only Undo button if it is a cross (because it's naughts turn, so last thing placed was a cross)
-                                squares, Game_records = Undo(squares, Game_records, LX, LY, MX, MY, pos_x, pos_y)
 
                 # Check if any big squares have been won
                 NandC = HasMiniGameWon(squares,LX,LY,NandC)
@@ -281,6 +273,8 @@ def game_loop(squares = squares):
         alternate_grey = (AG,AG,AG)
         pygame.display.update()
         clock.tick(ticker)
+
+        squares, Game_records = Undo(squares, Game_records)
 
         winner = check_if_gameover(NandC)
 
