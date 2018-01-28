@@ -99,11 +99,15 @@ def Naughts_button(pos_x, pos_y, X, Y, x, y, squares, Game_records, width = size
     return squares, Game_records
 
 def Undo(squares, Game_records):
-    if (pygame.key.get_pressed()[pygame.K_z]):
-        X, Y, x, y = Game_records[-1]
-        squares[X][Y][x][y] = True
-        Game_records.pop(-1)
-        time.sleep(0.5)
+    if (pygame.key.get_pressed()[pygame.K_BACKSPACE]):
+        try:
+            X, Y, x, y = Game_records[-1]
+            squares[X][Y][x][y] = True
+            Game_records.pop(-1)
+            time.sleep(0.5)
+        except:
+            # Do nothing
+            mainmenu_loop()
     return squares, Game_records
 
 def check_if_gameover(NandC):
