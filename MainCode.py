@@ -7,9 +7,9 @@ pygame.init()
 clock = pygame.time.Clock()
 #test comment
 
-es = 10  # es = "edge space"
+es = 5  # es = "edge space"
 
-size = 60
+size = 70
 
 dW = 9 * size
 dH = 9 * size
@@ -237,7 +237,7 @@ def game_loop(squares = squares):
                                 pygame.draw.rect(game_display, blue1, (pos_x,pos_y,size,size))
                             else:
                                 pygame.draw.rect(game_display, white, (pos_x,pos_y,size,size))
-                            pygame.draw.circle(game_display, blue, (int(pos_x+size/2),int(pos_y+size/2)), 23, es)
+                            pygame.draw.circle(game_display, blue, (int(pos_x+size/2),int(pos_y+size/2)), int(size/2-es), es)
 
                             if len(Game_records) % 2 == 0:
                                 # Only Undo button if it is a naught (because it's crosses turn, so last thing placed was a naught)
@@ -269,8 +269,8 @@ def game_loop(squares = squares):
                     pygame.draw.line(game_display, red, (LX*(size*3+es)+2*es,(LY+1)*(size*3+es)-3*es), ((LX+1)*(size*3+es)-3*es,LY*(size*3+es)+2*es),es)
 
                 elif NandC[LX][LY] == 'Naughts': # if large box has been won by naughts
-                    pygame.draw.circle(game_display, blue, (int(LX*(size*3+es)+es+size*3/2),int(LY*(size*3+es)+es+size*3/2)), int(size*3/2), es)
-                    pygame.draw.circle(game_display, blue, (int(LX*(size*3+es)+es+size*3/2),int(LY*(size*3+es)+es+size*3/2)), size, es)
+                    pygame.draw.circle(game_display, blue, (int(LX*(size*3+es)+es+size*3/2),int(LY*(size*3+es)+es+size*3/2)), 3*int(size/2)-4*es, es)
+                    pygame.draw.circle(game_display, blue, (int(LX*(size*3+es)+es+size*3/2),int(LY*(size*3+es)+es+size*3/2)), 3*int(size/2)-es, es)
 
         AG += AG_change
         if AG == 255:
