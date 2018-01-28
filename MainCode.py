@@ -7,12 +7,27 @@ pygame.init()
 clock = pygame.time.Clock()
 #test comment
 
-es = 5  # es = "edge space"
+# load images of People
+PaigeImg = pygame.image.load('paige.png')
+AdamImg = pygame.image.load('adam.png')
+AnthonyImg = pygame.image.load('anthony.png')
+MaxImg = pygame.image.load('max.png')
+Harry1Img = pygame.image.load('harry1.png')
+HarryToungeImg = pygame.image.load('harrytounge.png')
 
-size = 70
+# Load image of Crosses
+CrossPNG = pygame.image.load('Drawn_Cross.png')
+# Load image of Naughts
+NaughtsPNG = pygame.image.load('Drawn_Naught.png')
+# Load image of Logo
+Logo = pygame.image.load('Logo.png')
+
+es = 6  # es = "edge space"
+
+size = 60
 
 dW = 9 * size
-dH = 10 * size
+dH = 9 * size
 game_display = pygame.display.set_mode((dW + 4*es,dH + 4*es))
 pygame.display.set_caption('Ultimate Naughts and Crosses')
 
@@ -50,19 +65,39 @@ def message_display(text = '"insert text"',text_size = 20, position = (dW/2,dH/2
     text_rect.center = position
     game_display.blit(text_surface, text_rect)
 
-def normal_button(pos_x, pos_y, width, height, text = '"Text"', action = None, colour = cyan, hover_colour = blue2, text_colour = white):
+def blit_alpha(target, source, location, opacity):
+        x = location[0]
+        y = location[1]
+        temp = pygame.Surface((source.get_width(), source.get_height())).convert()
+        temp.blit(target, (-x, -y))
+        temp.blit(source, (0, 0))
+        temp.set_alpha(opacity)
+        target.blit(temp, location)
+
+def normal_button(pos_x, pos_y, width, height, CrossPNG = None, NaughtsPNG = None, text = '"Text"', action = None, colour = cyan, hover_colour = blue2, text_colour = white):
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
     if pos_x + width > mouse[0] > pos_x and pos_y + height > mouse[1] > pos_y:
         pygame.draw.rect(game_display, hover_colour, (pos_x,pos_y,width,height))
         message_display(text = text, text_size = 20, position = (pos_x+width/2,pos_y+height/2), colour = text_colour)
         if click[0] == 1:
-            action()
+            if CrossPNG == None and NaughtsPNG == None:
+                print('Cross none naughts none')
+                action()
+            elif NaughtsPNG == None and CrossPNG != None:
+                print('naughts none')
+                action(CrossPNG)
+            elif CrossPNG == None and NaughtsPNG != None:
+                print('cross none')
+                action(NaughtsPNG)
+            elif CrossPNG != None and NaughtsPNG != None:
+                print('Both have image')
+                action(CrossPNG, NaughtsPNG)
     else:
         pygame.draw.rect(game_display, colour, (pos_x,pos_y,width,height))
         message_display(text = text, text_size = 20, position = (pos_x+width/2,pos_y+height/2), colour = text_colour)
 
-def Crosses_button(pos_x, pos_y, X, Y, x, y, squares, Game_records, width = size, height = size, colour = grey, hover_colour = white):
+def Crosses_button(pos_x, pos_y, X, Y, x, y, squares, Game_records, image, width = size, height = size, colour = grey):
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
     if pos_x + width > mouse[0] > pos_x and pos_y + height > mouse[1] > pos_y:
@@ -81,7 +116,7 @@ def Crosses_button(pos_x, pos_y, X, Y, x, y, squares, Game_records, width = size
         pygame.draw.rect(game_display, colour, (pos_x,pos_y,width,height))
     return squares, Game_records
 
-def Naughts_button(pos_x, pos_y, X, Y, x, y, squares, Game_records, width = size, height = size, colour = grey, hover_colour = white):
+def Naughts_button(pos_x, pos_y, X, Y, x, y, squares, Game_records, image, width = size, height = size, colour = grey):
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
     if pos_x + width > mouse[0] > pos_x and pos_y + height > mouse[1] > pos_y:
@@ -167,21 +202,22 @@ def HasMiniGameWon(squares,X,Y,NandC):
                 NandC[X][Y] = Type
     return NandC
 
-def mainmenu_loop(mainmenu = True):
+def mainmenu_loop(CrossPNG = None, NaughtsPNG = None):
+    mainmenu = True
     while mainmenu:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
 
-        game_display.fill(black)
+        game_display.fill(white)
 
-        message_display(text = 'ULTIMATE', position = (dW*(10/20),dH*(4/20)), text_size = 50)
-        message_display(text = 'Naughts', position = (dW*(10/20),dH*(8/20)), text_size = 50)
-        message_display(text = 'and', position = (dW*(10/20),dH*(10/20)), text_size = 50)
-        message_display(text = 'Crosses', position = (dW*(10/20),dH*(12/20)), text_size = 50)
+        message_display(text = 'ULTIMATE', position = (dW*(10/20),dH*(4/20)), text_size = 50, colour = black)
+        message_display(text = 'Naughts', position = (dW*(10/20),dH*(8/20)), text_size = 50, colour = blue)
+        message_display(text = 'and', position = (dW*(10/20),dH*(10/20)), text_size = 50, colour = black)
+        message_display(text = 'Crosses', position = (dW*(10/20),dH*(12/20)), text_size = 50, colour = red)
 
-        normal_button(dW*(3/20), dH*(14/20), dW*(6/20), dH*(2/20), text = 'Play', action = game_loop, text_colour = black)
+        normal_button(dW*(3/20), dH*(14/20), dW*(6/20), dH*(2/20), text = 'Play', action = game_loop, CrossPNG = CrossPNG, NaughtsPNG = NaughtsPNG, text_colour = black)
         normal_button(dW*(11/20), dH*(14/20), dW*(6/20), dH*(2/20), text = 'Options?', action = options_loop, text_colour = black)
         normal_button(dW*(3/20), dH*(17/20), dW*(6/20), dH*(2/20), text = 'Instructions', action = instructions_loop, text_colour = black)
         normal_button(dW*(11/20), dH*(17/20), dW*(6/20), dH*(2/20), text = 'Credits', action = credits_loop, text_colour = black)
@@ -197,17 +233,12 @@ def options_loop(mainmenu = True):
                 pygame.quit()
                 quit()
 
-        game_display.fill(black)
+        game_display.fill(white)
 
-        message_display(text = 'UPTIONS', position = (dW*(10/20),dH*(4/20)), text_size = 50)
-        message_display(text = 'Naughts', position = (dW*(10/20),dH*(8/20)), text_size = 50)
-        message_display(text = 'and', position = (dW*(10/20),dH*(10/20)), text_size = 50)
-        message_display(text = 'Crosses', position = (dW*(10/20),dH*(12/20)), text_size = 50)
+        message_display(text = 'OPTIONS', position = (dW*(10/20),dH*(4/20)), text_size = 50, colour = black)
 
         normal_button(dW*(3/20), dH*(14/20), dW*(6/20), dH*(2/20), text = 'Play', action = game_loop, text_colour = black)
-        normal_button(dW*(11/20), dH*(14/20), dW*(6/20), dH*(2/20), text = 'Options?', action = options_loop, text_colour = black)
-        normal_button(dW*(3/20), dH*(17/20), dW*(6/20), dH*(2/20), text = 'Instructions', action = instructions_loop, text_colour = black)
-        normal_button(dW*(11/20), dH*(17/20), dW*(6/20), dH*(2/20), text = 'Credits', action = credits_loop, text_colour = black)
+        normal_button(dW*(1/20), dH*(1/20), dW*(6/20), dH*(2/20), text = 'Main Menu', action = mainmenu_loop, text_colour = black)
 
         pygame.display.update()
         clock.tick(60)
@@ -220,17 +251,12 @@ def instructions_loop(mainmenu = True):
                 pygame.quit()
                 quit()
 
-        game_display.fill(black)
+        game_display.fill(white)
 
-        message_display(text = 'INSTRUCTIONS', position = (dW*(10/20),dH*(4/20)), text_size = 50)
-        message_display(text = 'Naughts', position = (dW*(10/20),dH*(8/20)), text_size = 50)
-        message_display(text = 'and', position = (dW*(10/20),dH*(10/20)), text_size = 50)
-        message_display(text = 'Crosses', position = (dW*(10/20),dH*(12/20)), text_size = 50)
+        message_display(text = 'INSTRUCTIONS', position = (dW*(10/20),dH*(4/20)), text_size = 50, colour = black)
 
         normal_button(dW*(3/20), dH*(14/20), dW*(6/20), dH*(2/20), text = 'Play', action = game_loop, text_colour = black)
-        normal_button(dW*(11/20), dH*(14/20), dW*(6/20), dH*(2/20), text = 'Options?', action = options_loop, text_colour = black)
-        normal_button(dW*(3/20), dH*(17/20), dW*(6/20), dH*(2/20), text = 'Instructions', action = instructions_loop, text_colour = black)
-        normal_button(dW*(11/20), dH*(17/20), dW*(6/20), dH*(2/20), text = 'Credits', action = credits_loop, text_colour = black)
+        normal_button(dW*(1/20), dH*(1/20), dW*(6/20), dH*(2/20), text = 'Main Menu', action = mainmenu_loop, text_colour = black)
 
         pygame.display.update()
         clock.tick(60)
@@ -243,29 +269,35 @@ def credits_loop(mainmenu = True):
                 pygame.quit()
                 quit()
 
-        game_display.fill(black)
+        game_display.fill(white)
 
-        message_display(text = 'CREDITS', position = (dW*(10/20),dH*(4/20)), text_size = 50)
-        message_display(text = 'Naughts', position = (dW*(10/20),dH*(8/20)), text_size = 50)
-        message_display(text = 'and', position = (dW*(10/20),dH*(10/20)), text_size = 50)
-        message_display(text = 'Crosses', position = (dW*(10/20),dH*(12/20)), text_size = 50)
+        message_display(text = 'CREDITS', position = (dW*(10/20),dH*(4/20)), text_size = 50, colour = black)
+        message_display(text = 'Paige Windmill', position = (dW*(10/20),dH*(8/20)), text_size = 50, colour = black)
+        message_display(text = 'and', position = (dW*(10/20),dH*(10/20)), text_size = 50, colour = black)
+        message_display(text = 'Anthony Dunford', position = (dW*(10/20),dH*(12/20)), text_size = 50, colour = black)
 
         normal_button(dW*(3/20), dH*(14/20), dW*(6/20), dH*(2/20), text = 'Play', action = game_loop, text_colour = black)
-        normal_button(dW*(11/20), dH*(14/20), dW*(6/20), dH*(2/20), text = 'Options?', action = options_loop, text_colour = black)
-        normal_button(dW*(3/20), dH*(17/20), dW*(6/20), dH*(2/20), text = 'Instructions', action = instructions_loop, text_colour = black)
-        normal_button(dW*(11/20), dH*(17/20), dW*(6/20), dH*(2/20), text = 'Credits', action = credits_loop, text_colour = black)
+        normal_button(dW*(1/20), dH*(1/20), dW*(6/20), dH*(2/20), text = 'Main Menu', action = mainmenu_loop, text_colour = black)
 
         pygame.display.update()
         clock.tick(60)
     intro = False
 
-def game_loop(squares = squares):
+def game_loop(Cross_Image = None, Naughts_Image = None, squares = squares):
+
+    # Alternate grey variables needed
     AG = 255
     AG_change = -1
     alternate_grey = (AG,AG,AG)
-    gameover = False
-    width = size
-    mouse = pygame.mouse.get_pos()
+
+    # Image Handling
+    if Cross_Image != None:
+        Mcross = pygame.transform.scale(Cross_Image, (size, size))
+        Lcross = pygame.transform.scale(Cross_Image, (3*size, 3*size))
+    if Naughts_Image != None:
+        Mnaught = pygame.transform.scale(Naughts_Image, (size, size))
+        Lnaught = pygame.transform.scale(Naughts_Image, (3*size, 3*size))
+
     winner = None
 
     NandC = [['-','-','-'],['-','-','-'],['-','-','-']]
@@ -298,10 +330,10 @@ def game_loop(squares = squares):
                                 if LX == BigX and LY == BigY:
                                     if len(Game_records) % 2 == 0:
                                         # Makes Crosses button
-                                        squares, Game_records = Crosses_button(pos_x, pos_y, LX, LY, MX, MY, squares, Game_records, colour = alternate_grey)
+                                        squares, Game_records = Crosses_button(pos_x, pos_y, LX, LY, MX, MY, squares, Game_records, image = Cross_Image, colour = alternate_grey)
                                     else:
                                         # Makes Naughts button
-                                        squares, Game_records = Naughts_button(pos_x, pos_y, LX, LY, MX, MY, squares, Game_records, colour = alternate_grey)
+                                        squares, Game_records = Naughts_button(pos_x, pos_y, LX, LY, MX, MY, squares, Game_records, image = Naughts_Image, colour = alternate_grey)
                                 else:
                                     # Fill in white square if no button
                                     pygame.draw.rect(game_display, white, (pos_x,pos_y,size,size))
@@ -309,7 +341,7 @@ def game_loop(squares = squares):
                                 # If no game records exist then only allow the starting positions to be buttons
                                 if LX == 1 and LY == 1 and (MY, MX) != (1, 1):
                                     # Only center squares but not the middle middle square
-                                    squares, Game_records = Crosses_button(pos_x, pos_y, LX, LY, MX, MY, squares, Game_records, colour = alternate_grey)
+                                    squares, Game_records = Crosses_button(pos_x, pos_y, LX, LY, MX, MY, squares, Game_records, image = Cross_Image, colour = alternate_grey)
                                 else:
                                     # Fill in white square if no button
                                     pygame.draw.rect(game_display, white, (pos_x,pos_y,size,size))
@@ -322,7 +354,12 @@ def game_loop(squares = squares):
                                 pygame.draw.rect(game_display, blue1, (pos_x,pos_y,size,size))
                             else:
                                 pygame.draw.rect(game_display, white, (pos_x,pos_y,size,size))
-                            pygame.draw.circle(game_display, blue, (int(pos_x+size/2),int(pos_y+size/2)), int(size/2-es), es)
+                            # put on mini naught image
+                            if Naughts_Image == None:
+                                pygame.draw.circle(game_display, blue, (int(pos_x+size/2),int(pos_y+size/2)), int(size/2-es), es)
+                                pygame.draw.circle(game_display, blue, (int(pos_x+size/2),int(pos_y+size/2)), int(size/2-es), es)
+                            else:
+                                game_display.blit(Mnaught, (pos_x, pos_y))
 
                         elif squares[LX][LY][MX][MY] == 'Crosses':
 
@@ -331,23 +368,35 @@ def game_loop(squares = squares):
                                 pygame.draw.rect(game_display, pink1, (pos_x,pos_y,size,size))
                             else:
                                 pygame.draw.rect(game_display, white, (pos_x,pos_y,size,size))
-                            pygame.draw.line(game_display, red, (pos_x+es,pos_y+es     ), (pos_x+size-es,pos_y-es+size),es)
-                            pygame.draw.line(game_display, red, (pos_x+es,pos_y-es+size), (pos_x+size-es,pos_y+es     ),es)
+                            # put on mini cross image
+                            if Cross_Image == None:
+                                pygame.draw.line(game_display, red, (pos_x+es,pos_y+es     ), (pos_x+size-es,pos_y-es+size),es)
+                                pygame.draw.line(game_display, red, (pos_x+es,pos_y-es+size), (pos_x+size-es,pos_y+es     ),es)
+                            else:
+                                game_display.blit(Mcross, (pos_x, pos_y))
 
                 # Check if any big squares have been won
                 NandC = HasMiniGameWon(squares,LX,LY,NandC)
 
+                pos_X = LX*(3*size+es)
+                pos_Y = LY*(3*size+es)
                 if NandC[LX][LY] == 'Crosses': # if large box has been won by crosses
-                    # left-top to right-bottom
-                    pygame.draw.line(game_display, red, (LX*(size*3+es)+2*es,LY*(3*size+es)+4*es), ((LX+1)*(size*3+es)-3*es,(LY+1)*(size*3+es)-es),es)
-                    pygame.draw.line(game_display, red, (LX*(size*3+es)+4*es,LY*(size*3+es)+2*es), ((LX+1)*(size*3+es)-es,(LY+1)*(size*3+es)-3*es),es)
-                    # right-bottom to left-top
-                    pygame.draw.line(game_display, red, (LX*(size*3+es)+4*es,(LY+1)*(size*3+es)-es), ((LX+1)*(size*3+es)-es,LY*(size*3+es)+4*es),es)
-                    pygame.draw.line(game_display, red, (LX*(size*3+es)+2*es,(LY+1)*(size*3+es)-3*es), ((LX+1)*(size*3+es)-3*es,LY*(size*3+es)+2*es),es)
+                    if Cross_Image == None:
+                        # left-top to right-bottom
+                        pygame.draw.line(game_display, red, (pos_X+2*es,pos_Y+4*es), ((LX+1)*(size*3+es)-3*es,(LY+1)*(size*3+es)-es),es)
+                        pygame.draw.line(game_display, red, (pos_X+4*es,pos_Y+2*es), ((LX+1)*(size*3+es)-es,(LY+1)*(size*3+es)-3*es),es)
+                        # right-bottom to left-top
+                        pygame.draw.line(game_display, red, (pos_X+4*es,(LY+1)*(size*3+es)-es), ((LX+1)*(size*3+es)-es,pos_Y+4*es),es)
+                        pygame.draw.line(game_display, red, (pos_X+2*es,(LY+1)*(size*3+es)-3*es), ((LX+1)*(size*3+es)-3*es,pos_Y+2*es),es)
+                    else:
+                        blit_alpha(game_display, Lcross, (pos_X+es, pos_Y+es), opacity = 150)
 
                 elif NandC[LX][LY] == 'Naughts': # if large box has been won by naughts
-                    pygame.draw.circle(game_display, blue, (int(LX*(size*3+es)+es+size*3/2),int(LY*(size*3+es)+es+size*3/2)), 3*int(size/2)-4*es, es)
-                    pygame.draw.circle(game_display, blue, (int(LX*(size*3+es)+es+size*3/2),int(LY*(size*3+es)+es+size*3/2)), 3*int(size/2)-es, es)
+                    if Naughts_Image == None:
+                        pygame.draw.circle(game_display, blue, (int(pos_X+es+size*3/2),int(pos_Y+es+size*3/2)), 3*int(size/2)-4*es, es)
+                        pygame.draw.circle(game_display, blue, (int(pos_X+es+size*3/2),int(pos_Y+es+size*3/2)), 3*int(size/2)-es, es)
+                    else:
+                        blit_alpha(game_display, Lnaught, (pos_X+es, pos_Y+es), opacity = 150)
 
         AG += AG_change
         if AG == 255:
@@ -363,4 +412,5 @@ def game_loop(squares = squares):
 
         winner = check_if_gameover(NandC)
 
+#mainmenu_loop(NaughtsPNG = HarryToungeImg)
 mainmenu_loop()
