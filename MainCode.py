@@ -64,9 +64,12 @@ def Crosses_button(pos_x, pos_y, X, Y, x, y, squares, Game_records, width=50, he
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
     if pos_x + width > mouse[0] > pos_x and pos_y + height > mouse[1] > pos_y:
+
+        # Highlighted Black Plus on Cyan background
         pygame.draw.rect(game_display, cyan, (pos_x,pos_y,width,height))
-        pygame.draw.line(game_display, black, (pos_x+es,pos_y+size/2), (pos_x+size-es,pos_y+size/2),5)
-        pygame.draw.line(game_display, black, (pos_x+size/2,pos_y+es), (pos_x+size/2,pos_y+size-es),5)
+        pygame.draw.line(game_display, black, (pos_x+es    ,pos_y+size/2), (pos_x+size-es,pos_y+size/2 ),es)
+        pygame.draw.line(game_display, black, (pos_x+size/2,pos_y+es    ), (pos_x+size/2 ,pos_y+size-es),es)
+
         if click[0] == 1:
             time.sleep(0.1)
             squares[X][Y][x][y] = 'Crosses'
@@ -80,9 +83,12 @@ def Naughts_button(pos_x, pos_y, X, Y, x, y, squares, Game_records, width=50, he
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
     if pos_x + width > mouse[0] > pos_x and pos_y + height > mouse[1] > pos_y:
+
+        # Highlighted Black Plus on Cyan background
         pygame.draw.rect(game_display, cyan, (pos_x,pos_y,width,height))
-        pygame.draw.line(game_display, black, (pos_x+es,pos_y+size/2), (pos_x+size-es,pos_y+size/2),5)
-        pygame.draw.line(game_display, black, (pos_x+size/2,pos_y+5), (pos_x+size/2,pos_y+size-es),5)
+        pygame.draw.line(game_display, black, (pos_x+es    ,pos_y+size/2), (pos_x+size-es,pos_y+size/2 ),es)
+        pygame.draw.line(game_display, black, (pos_x+size/2,pos_y+es    ), (pos_x+size/2 ,pos_y+size-es),es)
+
         if click[0] == 1:
             time.sleep(0.1)
             squares[X][Y][x][y] = 'Naughts'
