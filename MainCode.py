@@ -50,7 +50,7 @@ def message_display(text = '"insert text"',text_size = 20, position = (dW/2,dH/2
     text_rect.center = position
     game_display.blit(text_surface, text_rect)
 
-def normal_button(pos_x, pos_y, width, height, action = None, colour = cyan, hover_colour = blue2):
+def normal_button(pos_x, pos_y, width, height, action = None, text = '"Text"', colour = cyan, hover_colour = blue2):
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
     if pos_x + width > mouse[0] > pos_x and pos_y + height > mouse[1] > pos_y:
@@ -154,9 +154,13 @@ def mainmenu_loop(mainmenu = True):
                 quit()
 
         game_display.fill(black)
-        message_display(text = 'ULTIMATE', position = (display_width*(10/20),display_height*(4/20)), text_size = 50)
-        message_display(text = 'Naughts and Crosses', position = (display_width*(10/20),display_height*(4/20)), text_size = 50)
-        normal_button(50, 50, 50, 50, game_loop)
+
+        message_display(text = 'ULTIMATE', position = (dW*(10/20),dH*(4/20)), text_size = 50)
+        message_display(text = 'Naughts', position = (dW*(10/20),dH*(8/20)), text_size = 50)
+        message_display(text = 'and', position = (dW*(10/20),dH*(10/20)), text_size = 50)
+        message_display(text = 'Crosses', position = (dW*(10/20),dH*(12/20)), text_size = 50)
+
+        normal_button(dW*(3/20), dH*(14/20), dW*(6/20), dH*(2/20), game_loop)
 
         pygame.display.update()
         clock.tick(60)
