@@ -12,7 +12,6 @@ es = 5  # es = "edge space"
 size = 70
 
 dW = 9 * size
-dH = 9 * size
 dH = 10 * size
 game_display = pygame.display.set_mode((dW + 4*es,dH + 4*es))
 pygame.display.set_caption('Ultimate Naughts and Crosses')
