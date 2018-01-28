@@ -50,15 +50,17 @@ def message_display(text = '"insert text"',text_size = 20, position = (dW/2,dH/2
     text_rect.center = position
     game_display.blit(text_surface, text_rect)
 
-def normal_button(pos_x, pos_y, width, height, action = None, text = '"Text"', colour = cyan, hover_colour = blue2):
+def normal_button(pos_x, pos_y, width, height, text = '"Text"', action = None, colour = cyan, hover_colour = blue2, text_colour = white):
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
     if pos_x + width > mouse[0] > pos_x and pos_y + height > mouse[1] > pos_y:
         pygame.draw.rect(game_display, hover_colour, (pos_x,pos_y,width,height))
+        message_display(text = text, text_size = 20, position = (pos_x+width/2,pos_y+height/2), colour = text_colour)
         if click[0] == 1:
             action()
     else:
         pygame.draw.rect(game_display, colour, (pos_x,pos_y,width,height))
+        message_display(text = text, text_size = 20, position = (pos_x+width/2,pos_y+height/2), colour = text_colour)
 
 def Crosses_button(pos_x, pos_y, X, Y, x, y, squares, Game_records, width = size, height = size, colour = grey, hover_colour = white):
     mouse = pygame.mouse.get_pos()
@@ -140,11 +142,8 @@ def HasMiniGameWon(squares,X,Y,NandC):
     listof = ['Naughts', 'Crosses']
     if current == 'Naughts':
         listof.remove('Crosses')
-        print('remove crosses')
     elif current == 'Crosses':
         listof.remove('Naughts')
-        print('remove naughts')
-    print(listof)
 
     for Type in listof:
         if squares[X][Y][1][1] == Type: # if middle square is equal to the tpye
@@ -182,12 +181,83 @@ def mainmenu_loop(mainmenu = True):
         message_display(text = 'and', position = (dW*(10/20),dH*(10/20)), text_size = 50)
         message_display(text = 'Crosses', position = (dW*(10/20),dH*(12/20)), text_size = 50)
 
-        normal_button(dW*(3/20), dH*(14/20), dW*(6/20), dH*(2/20), game_loop)
+        normal_button(dW*(3/20), dH*(14/20), dW*(6/20), dH*(2/20), text = 'Play', action = game_loop, text_colour = black)
+        normal_button(dW*(11/20), dH*(14/20), dW*(6/20), dH*(2/20), text = 'Options?', action = options_loop, text_colour = black)
+        normal_button(dW*(3/20), dH*(17/20), dW*(6/20), dH*(2/20), text = 'Instructions', action = instructions_loop, text_colour = black)
+        normal_button(dW*(11/20), dH*(17/20), dW*(6/20), dH*(2/20), text = 'Credits', action = credits_loop, text_colour = black)
 
         pygame.display.update()
         clock.tick(60)
     intro = False
 
+def options_loop(mainmenu = True):
+    while mainmenu:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+        game_display.fill(black)
+
+        message_display(text = 'UPTIONS', position = (dW*(10/20),dH*(4/20)), text_size = 50)
+        message_display(text = 'Naughts', position = (dW*(10/20),dH*(8/20)), text_size = 50)
+        message_display(text = 'and', position = (dW*(10/20),dH*(10/20)), text_size = 50)
+        message_display(text = 'Crosses', position = (dW*(10/20),dH*(12/20)), text_size = 50)
+
+        normal_button(dW*(3/20), dH*(14/20), dW*(6/20), dH*(2/20), text = 'Play', action = game_loop, text_colour = black)
+        normal_button(dW*(11/20), dH*(14/20), dW*(6/20), dH*(2/20), text = 'Options?', action = options_loop, text_colour = black)
+        normal_button(dW*(3/20), dH*(17/20), dW*(6/20), dH*(2/20), text = 'Instructions', action = instructions_loop, text_colour = black)
+        normal_button(dW*(11/20), dH*(17/20), dW*(6/20), dH*(2/20), text = 'Credits', action = credits_loop, text_colour = black)
+
+        pygame.display.update()
+        clock.tick(60)
+    intro = False
+
+def instructions_loop(mainmenu = True):
+    while mainmenu:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+        game_display.fill(black)
+
+        message_display(text = 'INSTRUCTIONS', position = (dW*(10/20),dH*(4/20)), text_size = 50)
+        message_display(text = 'Naughts', position = (dW*(10/20),dH*(8/20)), text_size = 50)
+        message_display(text = 'and', position = (dW*(10/20),dH*(10/20)), text_size = 50)
+        message_display(text = 'Crosses', position = (dW*(10/20),dH*(12/20)), text_size = 50)
+
+        normal_button(dW*(3/20), dH*(14/20), dW*(6/20), dH*(2/20), text = 'Play', action = game_loop, text_colour = black)
+        normal_button(dW*(11/20), dH*(14/20), dW*(6/20), dH*(2/20), text = 'Options?', action = options_loop, text_colour = black)
+        normal_button(dW*(3/20), dH*(17/20), dW*(6/20), dH*(2/20), text = 'Instructions', action = instructions_loop, text_colour = black)
+        normal_button(dW*(11/20), dH*(17/20), dW*(6/20), dH*(2/20), text = 'Credits', action = credits_loop, text_colour = black)
+
+        pygame.display.update()
+        clock.tick(60)
+    intro = False
+
+def credits_loop(mainmenu = True):
+    while mainmenu:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+        game_display.fill(black)
+
+        message_display(text = 'CREDITS', position = (dW*(10/20),dH*(4/20)), text_size = 50)
+        message_display(text = 'Naughts', position = (dW*(10/20),dH*(8/20)), text_size = 50)
+        message_display(text = 'and', position = (dW*(10/20),dH*(10/20)), text_size = 50)
+        message_display(text = 'Crosses', position = (dW*(10/20),dH*(12/20)), text_size = 50)
+
+        normal_button(dW*(3/20), dH*(14/20), dW*(6/20), dH*(2/20), text = 'Play', action = game_loop, text_colour = black)
+        normal_button(dW*(11/20), dH*(14/20), dW*(6/20), dH*(2/20), text = 'Options?', action = options_loop, text_colour = black)
+        normal_button(dW*(3/20), dH*(17/20), dW*(6/20), dH*(2/20), text = 'Instructions', action = instructions_loop, text_colour = black)
+        normal_button(dW*(11/20), dH*(17/20), dW*(6/20), dH*(2/20), text = 'Credits', action = credits_loop, text_colour = black)
+
+        pygame.display.update()
+        clock.tick(60)
+    intro = False
 
 def game_loop(squares = squares):
     AG = 255
@@ -211,7 +281,7 @@ def game_loop(squares = squares):
                 quit()
 
         #Crosses has turn
-        game_display.fill(white)
+        game_display.fill(green)
         pygame.draw.rect(game_display, black, (es,es,dW+2*es,dH+2*es))
         for LX in range(0,3):
             for LY in range(0,3):
