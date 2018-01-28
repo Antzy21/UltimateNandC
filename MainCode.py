@@ -9,9 +9,11 @@ clock = pygame.time.Clock()
 
 es = 5  # es = "edge space"
 
-display_width = 450
-display_height = 450
-game_display = pygame.display.set_mode((display_width + 4*es,display_height + 4*es))
+size = 50
+
+dW = 9 * size
+dH = 9 * size
+game_display = pygame.display.set_mode((dW + 4*es,dH + 4*es))
 pygame.display.set_caption('Ultimate Naughts and Crosses')
 
 # Create colours
@@ -41,7 +43,7 @@ ms21 = [[True,True,True],[True,True,True],[True,True,True]]
 ms22 = [[True,True,True],[True,True,True],[True,True,True]]
 squares = [[ms00,ms01,ms02],[ms10,ms11,ms12],[ms20,ms21,ms22]]
 
-def message_display(text = '"insert text"',text_size = 20, position = (display_width/2,display_height/2), colour = white):
+def message_display(text = '"insert text"',text_size = 20, position = (dW/2,dH/2), colour = white):
     largeText = pygame.font.Font('freesansbold.ttf',text_size)
     text_surface = largeText.render(text, True, colour)
     text_rect = text_surface.get_rect()
@@ -63,8 +65,8 @@ def Crosses_button(pos_x, pos_y, X, Y, x, y, squares, Game_records, width=50, he
     click = pygame.mouse.get_pressed()
     if pos_x + width > mouse[0] > pos_x and pos_y + height > mouse[1] > pos_y:
         pygame.draw.rect(game_display, cyan, (pos_x,pos_y,width,height))
-        pygame.draw.line(game_display, black, (pos_x+5,pos_y+25), (pos_x+45,pos_y+25),5)
-        pygame.draw.line(game_display, black, (pos_x+25,pos_y+5), (pos_x+25,pos_y+45),5)
+        pygame.draw.line(game_display, black, (pos_x+es,pos_y+size/2), (pos_x+size-es,pos_y+size/2),5)
+        pygame.draw.line(game_display, black, (pos_x+size/2,pos_y+es), (pos_x+size/2,pos_y+size-es),5)
         if click[0] == 1:
             time.sleep(0.1)
             squares[X][Y][x][y] = 'Crosses'
@@ -79,8 +81,8 @@ def Naughts_button(pos_x, pos_y, X, Y, x, y, squares, Game_records, width=50, he
     click = pygame.mouse.get_pressed()
     if pos_x + width > mouse[0] > pos_x and pos_y + height > mouse[1] > pos_y:
         pygame.draw.rect(game_display, cyan, (pos_x,pos_y,width,height))
-        pygame.draw.line(game_display, black, (pos_x+5,pos_y+25), (pos_x+45,pos_y+25),5)
-        pygame.draw.line(game_display, black, (pos_x+25,pos_y+5), (pos_x+25,pos_y+45),5)
+        pygame.draw.line(game_display, black, (pos_x+es,pos_y+size/2), (pos_x+size-es,pos_y+size/2),5)
+        pygame.draw.line(game_display, black, (pos_x+size/2,pos_y+5), (pos_x+size/2,pos_y+size-es),5)
         if click[0] == 1:
             time.sleep(0.1)
             squares[X][Y][x][y] = 'Naughts'
@@ -166,7 +168,7 @@ def game_loop(squares = squares):
     AG_change = -1
     alternate_grey = (AG,AG,AG)
     gameover = False
-    width = 50
+    width = size
     mouse = pygame.mouse.get_pos()
     undo = False
     winner = None
@@ -185,13 +187,13 @@ def game_loop(squares = squares):
 
         #Crosses has turn
         game_display.fill(white)
-        pygame.draw.rect(game_display, black, (es,es,display_width+2*es,display_height+2*es))
+        pygame.draw.rect(game_display, black, (es,es,dW+2*es,dH+2*es))
         for LX in range(0,3):
             for LY in range(0,3):
                 for MX in range(0,3):
                     for MY in range(0,3):
-                        pos_x = (150+es)*LX+50*MX+es
-                        pos_y = (150+es)*LY+50*MY+es
+                        pos_x = (3*size+es)*LX+size*MX+es
+                        pos_y = (3*size+es)*LY+size*MY+es
                         if squares[LX][LY][MX][MY] == True:
                             try:
                                 BigX, BigY = Game_records[-1][2:]
@@ -212,11 +214,11 @@ def game_loop(squares = squares):
                         elif squares[LX][LY][MX][MY] == 'Naughts':
 
                             # Draws Cicle
-                            pygame.draw.rect(game_display, white, (pos_x,pos_y,50,50))
-                            pygame.draw.circle(game_display, blue, (pos_x+25,pos_y+25), 23, 4)
+                            pygame.draw.rect(game_display, white, (pos_x,pos_y,size,size))
+                            pygame.draw.circle(game_display, blue, (int(pos_x+size/2),int(pos_y+size/2)), 23, 4)
                             if [LX,LY,MX,MY] == Game_records[-1]:
-                                pygame.draw.rect(game_display, blue1, (pos_x,pos_y,50,50))
-                                pygame.draw.circle(game_display, blue, (pos_x+25,pos_y+25), 23, 4)
+                                pygame.draw.rect(game_display, blue1, (pos_x,pos_y,size,size))
+                                pygame.draw.circle(game_display, blue, (int(pos_x+size/2),int(pos_y+size/2)), 23, 4)
 
                             if len(Game_records) % 2 == 0:
                                 # Only Undo button if it is a naught (because it's crosses turn, so last thing placed was a naught)
@@ -225,13 +227,13 @@ def game_loop(squares = squares):
                         elif squares[LX][LY][MX][MY] == 'Crosses':
 
                             # Draws Cross
-                            pygame.draw.rect(game_display, white, (pos_x,pos_y,50,50))
-                            pygame.draw.line(game_display, red, (pos_x+5,pos_y+5), (pos_x+45,pos_y+45),5)
-                            pygame.draw.line(game_display, red, (pos_x+5,pos_y+45), (pos_x+45,pos_y+5),5)
+                            pygame.draw.rect(game_display, white, (pos_x,pos_y,size,size))
+                            pygame.draw.line(game_display, red, (pos_x+es,pos_y+es), (pos_x+size-es,pos_y+size-es),5)
+                            pygame.draw.line(game_display, red, (pos_x+es,pos_y+size-es), (pos_x+size-es,pos_y+es),5)
                             if [LX,LY,MX,MY] == Game_records[-1]:
-                                pygame.draw.rect(game_display, pink1, (pos_x,pos_y,50,50))
-                                pygame.draw.line(game_display, red, (pos_x+5,pos_y+5), (pos_x+45,pos_y+45),5)
-                                pygame.draw.line(game_display, red, (pos_x+5,pos_y+45), (pos_x+45,pos_y+5),5)
+                                pygame.draw.rect(game_display, pink1, (pos_x,pos_y,size,size))
+                                pygame.draw.line(game_display, red, (pos_x+es,pos_y+es), (pos_x+size-es,pos_y+size-es),es)
+                                pygame.draw.line(game_display, red, (pos_x+es,pos_y+size-es), (pos_x+size-es,pos_y+es),5)
 
                             if len(Game_records) % 2 == 1:
                                 # Only Undo button if it is a cross (because it's naughts turn, so last thing placed was a cross)
@@ -242,15 +244,13 @@ def game_loop(squares = squares):
 
                 if NandC[LX][LY] == 'Crosses': # if large box has been won by crosses
                     # left-top to right-bottom
-                    pygame.draw.line(game_display, red, (LX*(150+es)+2*es,LY*(150+es)+4*es), ((LX+1)*(150+es)-3*es,(LY+1)*(150+es)-es),5)
-                    pygame.draw.line(game_display, red, (LX*(150+es)+4*es,LY*(150+es)+2*es), ((LX+1)*(150+es)-es,(LY+1)*(150+es)-3*es),5)
+                    pygame.draw.line(game_display, red, (LX*(size*3+es)+2*es,LY*(3*size+es)+4*es), ((LX+1)*(size*3+es)-3*es,(LY+1)*(size*3+es)-es),5)
+                    pygame.draw.line(game_display, red, (LX*(size*3+es)+4*es,LY*(size*3+es)+2*es), ((LX+1)*(size*3+es)-es,(LY+1)*(size*3+es)-3*es),5)
                     # right-bottom to left-top
-                    pygame.draw.line(game_display, red, (LX*(150+es)+4*es,(LY+1)*(150+es)-es), ((LX+1)*(150+es)-es,LY*(150+es)+4*es),5)
-                    pygame.draw.line(game_display, red, (LX*(150+es)+2*es,(LY+1)*(150+es)-3*es), ((LX+1)*(150+es)-3*es,LY*(150+es)+2*es),5)
+                    pygame.draw.line(game_display, red, (LX*(size*3+es)+4*es,(LY+1)*(size*3+es)-es), ((LX+1)*(size*3+es)-es,LY*(size*3+es)+4*es),5)
+                    pygame.draw.line(game_display, red, (LX*(size*3+es)+2*es,(LY+1)*(size*3+es)-3*es), ((LX+1)*(size*3+es)-3*es,LY*(size*3+es)+2*es),5)
 
                 elif NandC[LX][LY] == 'Naughts': # if large box has been won by naughts
-                    pygame.draw.circle(game_display, blue, (LX*(150+es)+es+75,LY*(150+es)+es+75), 70, 5)
-                    pygame.draw.circle(game_display, blue, (LX*(150+es)+es+75,LY*(150+es)+es+75), 55, 5)
                     pygame.draw.circle(game_display, blue, (LX*(size*3+es)+es+size*3/2,LY*(size*3+es)+es+size*3/2), 70, 5)
                     pygame.draw.circle(game_display, blue, (LX*(size*3+es)+es+size*3/2,LY*(size*3+es)+es+size*3/2), 55, 5)
 
