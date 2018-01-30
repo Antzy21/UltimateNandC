@@ -8,19 +8,21 @@ clock = pygame.time.Clock()
 #test comment
 
 # load images of People
-PaigeImg = pygame.image.load('paige.png')
-AdamImg = pygame.image.load('adam.png')
-AnthonyImg = pygame.image.load('anthony.png')
-MaxImg = pygame.image.load('max.png')
-Harry1Img = pygame.image.load('harry1.png')
-HarryToungeImg = pygame.image.load('harrytounge.png')
+#InternetHistorianImg = pygame.image.load('InternetHistorian.png')
+#AinsleyImg = pygame.image.load('Ainsley.png')
+#PaigeImg = pygame.image.load('paige.png')
+#AdamImg = pygame.image.load('adam.png')
+#AnthonyImg = pygame.image.load('anthony.png')
+#MaxImg = pygame.image.load('max.png')
+#Harry1Img = pygame.image.load('harry1.png')
+#HarryToungeImg = pygame.image.load('harrytounge.png')
 
 # Load image of Crosses
 OctocatImg = pygame.image.load('octocat.png')
 # Load image of Crosses
-Drawn_Cross = pygame.image.load('Drawn_Cross.png')
+CrossImg = pygame.image.load('Drawn_Cross.png')
 # Load image of Naughts
-Drawn_Naught = pygame.image.load('Drawn_Naught.png')
+NaughtImg = pygame.image.load('Drawn_Naught.png')
 # Load image of Logo
 Logo = pygame.image.load('Logo.png')
 
@@ -315,7 +317,7 @@ def game_loop(Cross_Image = None, Naughts_Image = None, squares = squares):
                 quit()
 
         #Crosses has turn
-        game_display.fill(green)
+        game_display.fill(white)
         pygame.draw.rect(game_display, black, (es,es,dW+2*es,dH+2*es))
         for LX in range(0,3):
             for LY in range(0,3):
@@ -414,5 +416,5 @@ def game_loop(Cross_Image = None, Naughts_Image = None, squares = squares):
 
         winner = check_if_gameover(NandC)
 
-mainmenu_loop(CrossPNG = Drawn_Cross, NaughtsPNG = OctocatImg)
+mainmenu_loop(CrossPNG = OctocatImg, NaughtsPNG = AinsleyImg)
 #mainmenu_loop()
